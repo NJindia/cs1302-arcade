@@ -14,5 +14,13 @@ public class Tile {
     public int getValue() {
         return value;
     }
+
+    public boolean mergeTile(Tile t) {
+        if(value == t.getValue()) {
+            value *= 2;
+            return true;
+        }
+        return false;
+    }
 }
     
