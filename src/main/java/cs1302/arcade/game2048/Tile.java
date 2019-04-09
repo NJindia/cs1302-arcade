@@ -1,4 +1,4 @@
-package cs1302.arcade.2048;
+package cs1302.arcade.game2048;
 
 public class Tile {
     private int value;
