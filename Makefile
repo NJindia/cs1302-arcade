@@ -1,11 +1,11 @@
-MAIN_CLASS = cs1302.arcade.ArcadeDriver
+MAIN_CLASS = cs1302.gallery.GalleryDriver
 
 run: compile
 	export MAVEN_OPTS=-Dprism.order=sw; \
-	mvn -e exec:java -Dexec.mainClass="$(MAIN_CLASS)"
+	mvn exec:java -Dexec.mainClass="$(MAIN_CLASS)"
 
 compile:
-	mvn -e compile
+	mvn compile
 
 clean:
 	mvn clean
