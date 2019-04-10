@@ -27,8 +27,8 @@ public class ArcadeApp extends Application {
     private EventHandler<? super MouseEvent> createMouseHandler() {
 	return event -> {
 	    System.out.println(event);
-	    r.setX(rng.nextDouble() * (640 - r.getWidth()));
-	    r.setY(rng.nextDouble() * (480 - r.getHeight()));
+	    r.setX(rng.nextDouble() * (480 - r.getWidth()));
+	    r.setY(rng.nextDouble() * (640 - r.getHeight()));
 	};
     } // createMouseHandler
 
@@ -63,7 +63,7 @@ public class ArcadeApp extends Application {
         r.setOnMouseClicked(createMouseHandler()); // clicks on the rectangle move it randomly
         group.setOnKeyPressed(createKeyHandler()); // left-right key presses move the rectangle
 
-        Scene scene = new Scene(group, 640, 480);
+        Scene scene = new Scene(group, 480, 640);
         stage.setTitle("cs1302-arcade!");
         stage.setScene(scene);
         stage.sizeToScene();
