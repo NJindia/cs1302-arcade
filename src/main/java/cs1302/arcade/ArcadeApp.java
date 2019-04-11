@@ -1,5 +1,6 @@
 package cs1302.arcade;
 
+import cs1302.arcade.game2048;
 import java.util.Random;
 
 import javafx.application.Application;
@@ -65,7 +66,7 @@ public class ArcadeApp extends Application {
 
         Scene scene = new Scene(group, 480, 640);
         stage.setTitle("cs1302-arcade!");
-        stage.setScene(scene);
+        stage.setScene(Game2048.getScene());
         stage.sizeToScene();
         stage.show();
 
