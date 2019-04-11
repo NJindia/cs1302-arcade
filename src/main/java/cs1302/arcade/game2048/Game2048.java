@@ -4,6 +4,8 @@ import javafx.scene.text.Font;
 import javafx.scene.*;
 import javafx.scene.control.Control;
 import javafx.scene.text.*;
+import javafx.scene.layout.*;
+
 public class Game2048 {
 
     private final double xMin = 0;
@@ -11,22 +13,23 @@ public class Game2048 {
     private final double yMin = 0;
     private final double yMax = 480 - 100;
 
-    Group group = new Group();
-    Scene scene = new Scene(group, 640, 480);
+    
+    
+    
+    Text t = new Text("High Score: 10");
+    Text t2 = new Text("Score: 10");
 
-    Text t = new Text("2040 Game!");
-
-    t.setFont(new Font(20));
+    //t.setFont(new Font(20));
   
-    HBox gameTitle = new HBox(t);
+    HBox score = new HBox(t, t2);
 
-    group.getChildren().add(gameTitle);
+    Group group = new Group(score);
+    
+    Scene scene = new Scene(group, 640, 480); 
 
-
-    public static Scene getScene()
-        {
-            return scene;
-        }
+    public Scene getScene() {
+        return scene;
+    }
 
 
 
