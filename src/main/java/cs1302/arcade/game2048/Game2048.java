@@ -50,11 +50,12 @@ public class Game2048 {
         for(Tile[] t1 : tiles) {
             for (Tile t : t1) {
                 Runnable r = () -> {
-                    moveToEdgeX(t, direction);
+                     moveToEdgeX(t, direction);
+                    
                 };
-                Thread t = new Thread(r);
-                t.setDaemon(true);
-                t.start();
+                Thread y = new Thread(r);
+                y.setDaemon(true);
+                y.start();
             }
         }
     }
@@ -65,14 +66,14 @@ public class Game2048 {
         case 1:
             while(collided == false) {
                 t.setX(t.getX() + 1);
-                if(/*collides with another Tile t1*/) {
-                    if(t.canMerge(t1)) {
+                // if(/*collides with another Tile t1*/) {
+                if(t.canMerge(t1)) { //need to make another tile
                         //merge t into t1
                     }
                     collided = true;
-                } else if(t.getX() == /*last_possible_x_coordinate*/) {
-                    collided = true;
-                }
+                    // } else if(t.getX() == /*last_possible_x_coordinate*/) {
+                    // collided = true;
+                    // }
             }
             break;
         case -1:
@@ -81,17 +82,17 @@ public class Game2048 {
         default:
             break;
 
+        }
     }
-        
+/*        
     public void moveY(int direction) {
         //same as moveX but with Y
     }
-
+*/
     public boolean addNewTile() {
         boolean added = false;
         Tile t = new Tile();
         tileGroup.getChildren().add(t);
         //Position tile?
     }
-
 }

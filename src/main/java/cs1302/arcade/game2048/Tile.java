@@ -9,7 +9,7 @@ public class Tile extends ImageView {
         super();
         this.setFitWidth(100);
         this.setPreserveRatio(true);
-        setValue(Math.pow(2, (int)((Math.random()*2) + 1)));
+        setValue(Math.pow(2, (int)((Math.random()*2) + 1)));//change to no cast, and make parameter double?
     }
 
     /**
