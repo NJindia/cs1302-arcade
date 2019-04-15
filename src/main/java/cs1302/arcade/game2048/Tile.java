@@ -9,7 +9,7 @@ public class Tile extends ImageView {
         super();
         this.setFitWidth(100);
         this.setPreserveRatio(true);
-        setValue(Math.pow(2, (int)((Math.random()*2) + 1)));//change to no cast, and make parameter double?
+        setValue((int)Math.pow(2, (int)((Math.random()*2) + 1)));
     }
 
     /**
@@ -18,8 +18,8 @@ public class Tile extends ImageView {
      */
     public void setValue(int v) {
         value = v;
-        String file = "file:src/main/resources/" + v + ".png";
-        this.setImage(new Image(file));        
+        String file = "file:src/main/resources/2048tiles/" + v + ".png";
+        this.setImage(new Image(file));
     }
 
     public int getValue() {

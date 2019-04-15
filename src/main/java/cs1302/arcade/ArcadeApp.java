@@ -18,7 +18,8 @@ public class ArcadeApp extends Application {
 
     Group group = new Group();           // main container
     Random rng = new Random();           // random number generator
-    Rectangle r = new Rectangle(20, 20); // some rectangle
+    //Rectangle r = new Rectangle(20, 20); // some rectangle
+    Tile r = new Tile();
     Game2048 game = new Game2048();
 
     
@@ -30,8 +31,8 @@ public class ArcadeApp extends Application {
     private EventHandler<? super MouseEvent> createMouseHandler() {
 	return event -> {
 	    System.out.println(event);
-	    r.setX(rng.nextDouble() * (480 - r.getWidth()));
-	    r.setY(rng.nextDouble() * (640 - r.getHeight()));
+	    r.setX(rng.nextDouble() * (480 - 100/*r.getWidth()*/));
+	    r.setY(rng.nextDouble() * (640 - 100/*r.getHeight()*/));
 	};
     } // createMouseHandler
 
@@ -68,13 +69,14 @@ public class ArcadeApp extends Application {
 
         Scene scene = new Scene(group, 480, 640);
         stage.setTitle("cs1302-arcade!");
-        stage.setScene(game.getScene());
+        stage.setScene(game.getGameScene());
+        //stage.setScene(scene);
         stage.sizeToScene();
         stage.show();
 
         // the group must request input focus to receive key events
         // @see https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Node.html#requestFocus--
-        group.requestFocus();
+        //group.requestFocus();
 
     } // start
 
