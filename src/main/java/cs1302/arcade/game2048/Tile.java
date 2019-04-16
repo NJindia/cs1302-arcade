@@ -25,16 +25,13 @@ public class Tile extends ImageView {
     public int getValue() {
         return value;
     }
-
-    public boolean canMerge(Tile t) {
-        if(value == t.getValue()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
     
-    public void mergeTile(Tile t) {
-        setValue(value * 2);
+    public boolean merge(Tile t) {
+        if(value == t.getValue()) {
+            setValue(value * 2);
+            return true;
+        }
+        return false;
+        
     }
 }
