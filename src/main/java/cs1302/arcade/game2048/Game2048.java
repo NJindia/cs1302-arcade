@@ -21,11 +21,11 @@ public class Game2048 {
 
     private enum Direction {LEFT, RIGHT, UP, DOWN};
     Direction direction;
-    
+    private final int inc = 12;
     private final double xMin = 12; //12px buffer
-    private final double xMax = 360; //460 - Size of Tile (100px)
+    private final double xMax = 348; //460 - Size of Tile (100px) - 12 px buffer
     private final double yMin = 12; //12px buffer
-    private final double yMax = 360; //460 - Size of Tile (100px)
+    private final double yMax = 348; //460 - Size of Tile (100px) - 12 px buffer
     
     /** 4x4 array to store tiles and their positions */
     Tile[][] tiles = new Tile[4][4];
@@ -54,9 +54,12 @@ public class Game2048 {
         HBox buttons = new HBox(b, b2);
         
         score.setSpacing(30);
-        tileGroup.setStyle("-fx-background-color: black;");
+        BackgroundSize size = new BackgroundSize(460, 460, false, false, false, false);
+        Image image = new Image("file:src/main/resources/TileBackground.png");
+        BackgroundImage background = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,
+                                                         BackgroundRepeat.NO_REPEAT, null, size);
+        tileGroup.setBackground(new Background(background));
         tileGroup.setPrefSize(460, 460);
-        tileGroup.setPadding(new Insets(12));
         addNewTile();
         addNewTile();
                
@@ -123,20 +126,21 @@ public class Game2048 {
             Tile t = (Tile)node;
             if(t != null && t.moved == false) {
                 moving = true;
-                if((t.getY() - 12) >= yMin) {
+                if((t.getY() - inc) >= yMin) {
                     for(Node node2 : tileGroup.getChildren()) {
                         Tile tile = (Tile)node2;         
                         if(t != tile && t.getBoundsInLocal().intersects(tile.getBoundsInLocal())
                            && tile.moved == true) {
                             t.moved = true;
-                            t.setY(t.getY() + 12);
+                            t.setY(tile.getY() + 112);
                         } //if
                     } //for
                 } else {
                     t.moved = true;
+                    t.setY(yMin);
                 }
                 if(t.moved == false) {
-                    t.setY(t.getY() - 12);
+                    t.setY(t.getY() - inc);
                 } //if
             } //if  
         } //for
@@ -153,20 +157,21 @@ public class Game2048 {
             Tile t = (Tile)node;
             if(t != null && t.moved == false) {
                 moving = true;
-                if((t.getY() + 12) <= yMax) {
+                if((t.getY() + inc) <= yMax) {
                     for(Node node2 : tileGroup.getChildren()) {
                         Tile tile = (Tile)node2;         
                         if(t != tile && t.getBoundsInLocal().intersects(tile.getBoundsInLocal())
                            && tile.moved == true) {
                             t.moved = true;
-                            t.setY(t.getY() - 12);
+                            t.setY(tile.getY() - 112);
                         } //if
                     } //for
                 } else {
                     t.moved = true;
+                    t.setY(yMax);
                 }
                 if(t.moved == false) {
-                    t.setY(t.getY() + 12);
+                    t.setY(t.getY() + inc);
                 } //if
             } //if  
         } //for
@@ -183,20 +188,21 @@ public class Game2048 {
             Tile t = (Tile)node;
             if(t != null && t.moved == false) {
                 moving = true;
-                if((t.getX() - 12) >= xMin) {
+                if((t.getX() - inc) >= xMin) {
                     for(Node node2 : tileGroup.getChildren()) {
                         Tile tile = (Tile)node2;         
                         if(t != tile && t.getBoundsInLocal().intersects(tile.getBoundsInLocal())
                            && tile.moved == true) {
                             t.moved = true;
-                                t.setX(t.getX() - 12);
+                            t.setX(tile.getX() + 112);
                         } //if
                     } //for
                 } else {
                     t.moved = true;
+                    t.setX(xMin);
                 }
                 if(t.moved == false) {
-                    t.setX(t.getX() - 12);
+                    t.setX(t.getX() - inc);
                 } //if
             } //if  
         } //for
@@ -223,26 +229,30 @@ public class Game2048 {
                 Tile t = (Tile)node;
                 if(t != null && t.moved == false) {
                     moving = true;
-                    if((t.getX() + 12) < xMax) {
+                    if((t.getX() + inc) <= xMax) {
                         for(Node node2 : tileGroup.getChildren()) {
                             Tile tile = (Tile)node2;
                             if(t != tile && t.getBoundsInLocal().intersects(tile.getBoundsInLocal())
                                && tile.moved == true) {
                                 t.moved = true;
-                                t.setX(t.getX() - 12);
+                                t.setX(tile.getX() - 112);
                             } //if
                         } //for
                     } else {
                         t.moved = true;
+                        t.setX(xMax);
                     }
                     if(t.moved == false) {
-                        t.setX(t.getX() + 12);
+                        t.setX(t.getX() + inc);
                     } //if
                 } //if  
             } //for
             if(moving == false) {
-                updateTilesRight();
                 tlRight.stop();
+                updateTilesRight();
+                for(int i = 0; i < 9; i++) {
+                    moveRight(); //Shouldn't call updateTilesRight
+                }
                 addNewTile();
                 resetMoved();
             }
@@ -312,8 +322,8 @@ public class Game2048 {
     }
 
     private void setNewTileXY(int x, int y, Tile t) {
-        int xCoordinate = 12;
-        int yCoordinate = 12;
+        int xCoordinate = 12 + (112*x);
+        int yCoordinate = 12 + (112*y);
         t.setX(xCoordinate);
         t.setY(yCoordinate);
     }
