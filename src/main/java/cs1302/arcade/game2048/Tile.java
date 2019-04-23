@@ -3,6 +3,7 @@ import javafx.scene.image.*;
 
 public class Tile extends ImageView {
     private int value;
+    public boolean moved = false;
 
     /** Creates a new {@code Tile} and randomly sets its value to 2 or 4. */ 
     public Tile() {
@@ -27,7 +28,7 @@ public class Tile extends ImageView {
     }
     
     public boolean merge(Tile t) {
-        if(value == t.getValue()) {
+        if(t != null && value == t.getValue()) {
             setValue(value * 2);
             return true;
         }
