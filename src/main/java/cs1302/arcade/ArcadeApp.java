@@ -1,5 +1,7 @@
 package cs1302.arcade;
 
+import javafx.scene.control.Labeled;
+import javafx.scene.text.*;
 import javafx.scene.layout.BackgroundFill;
 import javafx.geometry.Orientation;
 import javafx.scene.layout.Background;
@@ -70,13 +72,15 @@ public class ArcadeApp extends Application {
   public void mainMenu()
         {
             Pane mainMenu;
-            Font font = Font.font(50);
+            Font font = Font.font("DejaVu Sans Light", FontWeight.BOLD, 50);
 //          Scene scene2 = new Scene();
             Scene scene1;
+            Font font1 = Font.font("Lucida Sans Typewriter", FontWeight.BOLD, 50);
             Button game1 = new Button("2048 Game");
             game1.setFont(font);
+    //       game.setText(text.getText());
             //game1.setPadding(new Insets(10, 50, 100, 50));
-
+            game1.setStyle("-fx-border-color:black; -fx-background-color: Orange");
             game1.setOnAction(new EventHandler<ActionEvent>(){
                     @Override
                     public void handle(ActionEvent event) {
@@ -85,9 +89,10 @@ public class ArcadeApp extends Application {
                         stage.setScene(scene2);
                     }
                 });
-  
+           System.out.println("Fonts: " + javafx.scene.text.Font.getFamilies());
           Button game2 = new Button("Tetris Game");
-            game2.setFont(font);
+            game2.setFont(font1);
+            game2.setStyle("-fx-border-color:red; -fx-background-color: blue;");
 //            game2.setPadding(new Insets(10, 50, 100, 50));
             game2.setOnAction(new EventHandler<ActionEvent>(){
                     @Override
@@ -96,6 +101,7 @@ public class ArcadeApp extends Application {
                     }
                 });
             Button exit = new Button("Exit");
+            exit.setStyle("-fx-background-color: Red");
             exit.setOnAction(new EventHandler<ActionEvent>(){
                     @Override
                     public void handle(ActionEvent event) {
