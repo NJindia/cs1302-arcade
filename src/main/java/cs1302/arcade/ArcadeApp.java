@@ -81,42 +81,29 @@ public class ArcadeApp extends Application {
     //       game.setText(text.getText());
             //game1.setPadding(new Insets(10, 50, 100, 50));
             game1.setStyle("-fx-border-color:black; -fx-background-color: Orange");
-            game1.setOnAction(new EventHandler<ActionEvent>(){
-                    @Override
-                    public void handle(ActionEvent event) {
-                        System.out.println("Launching 2048!");
-                        Scene scene2 = game.getGameScene();
-                        stage.setScene(scene2);
-                    }
+            game1.setOnAction(e -> {
+                    System.out.println("Launching 2048!");
+                    Scene scene2 = game.getGameScene();
+                    stage.setScene(scene2);
                 });
-           System.out.println("Fonts: " + javafx.scene.text.Font.getFamilies());
-          Button game2 = new Button("Tetris Game");
+            System.out.println("Fonts: " + javafx.scene.text.Font.getFamilies());
+            Button game2 = new Button("Tetris Game");
             game2.setFont(font1);
             game2.setStyle("-fx-border-color:red; -fx-background-color: blue;");
 //            game2.setPadding(new Insets(10, 50, 100, 50));
-            game2.setOnAction(new EventHandler<ActionEvent>(){
-                    @Override
-                    public void handle(ActionEvent event) {
-                        System.out.println("Launching Tetris!");
-                    }
-                });
+            game2.setOnAction(e -> System.out.println("Launching Tetris!"));
             Button exit = new Button("Exit");
             exit.setStyle("-fx-background-color: Red");
-            exit.setOnAction(new EventHandler<ActionEvent>(){
-                    @Override
-                    public void handle(ActionEvent event) {
-                        System.exit(0);
-                    }
-                });
+            exit.setOnAction(e -> System.exit(0));
             style.setPadding(new Insets(50, 10, 50, 50));
-
+          
             VBox newPane = new VBox(game1, style, game2, exit);
             
             newPane.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
             scene1 = new Scene(newPane);
             stage.setScene(scene1);
             
-            
+          
             /* game1.setOnAction(e -> new EventHandler<ActionEvent>(){
                     @Override
                     public void handle(ActionEvent event) {
