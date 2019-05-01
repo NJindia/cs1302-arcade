@@ -17,5 +17,15 @@ that the Markdown is transformed into nice looking HTML.
 ## TUES 2019-04-23 @ 11:55 PM EST
 
 1. **DONE:** Finished movement methods and collision detection for 2048 game.
+
 2. **TODO:** Tetris Game, 2048 tile merging, storing high score, filling out ATTRIBUTION.md file.
+
 3. **PROB:** We had a problem where we could move tiles while a previous move was still in process, we fixed it by using 4 different timelines for each direction instead of the suggested 1.
+
+## TUES 2019-04-30 @ 11:55 PM EST
+
+1. **DONE:** Actually finished movement, merging, and collisions for 2048 games (no bugs). Started making skeleton code for Tetris shapes.
+
+2. **TODO:** Tetris Game, 2048 score keeping, 2048 new game button.
+
+3. **PROB:** When buttons are on the scene, using the arrow keys can move focus to the buttons, making moving the tiles on the game board impossible, as it does not recognize that focus belongs to the Pane holding the tiles.
