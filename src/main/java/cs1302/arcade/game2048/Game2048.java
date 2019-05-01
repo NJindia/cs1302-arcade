@@ -19,14 +19,6 @@ import javafx.scene.image.*;
 
 public class Game2048 {
 
-    private enum Direction {LEFT, RIGHT, UP, DOWN};
-    Direction direction;
-    private final int inc = 12;
-    private final double xMin = 12; //12px buffer
-    private final double xMax = 348; //460 - Size of Tile (100px) - 12 px buffer
-    private final double yMin = 12; //12px buffer
-    private final double yMax = 348; //460 - Size of Tile (100px) - 12 px buffer
-    
     /** 4x4 array to store tiles and their positions */
     Tile[][] tiles = new Tile[4][4];
 
@@ -96,172 +88,59 @@ public class Game2048 {
                 tlLeft.getStatus() == Animation.Status.STOPPED &&
                 tlUp.getStatus() == Animation.Status.STOPPED &&
                 tlDown.getStatus() == Animation.Status.STOPPED) {
-                //direction = Direction.RIGHT;
+                updateTilesRight();
                 tlRight.play();
             } else if (e.getCode() == KeyCode.LEFT &&
                 tlRight.getStatus() == Animation.Status.STOPPED &&
                 tlUp.getStatus() == Animation.Status.STOPPED &&
                 tlDown.getStatus() == Animation.Status.STOPPED) {
-                //direction = Direction.LEFT;
+                updateTilesLeft();
                 tlLeft.play();
             } else if (e.getCode() == KeyCode.UP && 
                 tlLeft.getStatus() == Animation.Status.STOPPED &&
                 tlRight.getStatus() == Animation.Status.STOPPED &&
                 tlDown.getStatus() == Animation.Status.STOPPED) {
-                //direction = Direction.UP;
+                updateTilesUp();
                 tlUp.play();
             } else if (e.getCode() == KeyCode.DOWN && 
                 tlLeft.getStatus() == Animation.Status.STOPPED &&
                 tlUp.getStatus() == Animation.Status.STOPPED &&
                 tlRight.getStatus() == Animation.Status.STOPPED) {
-                //direction = Direction.DOWN;
+                updateTilesDown();
                 tlDown.play();
             } //if
         };
     } //createKeyHandler
-      
-    private void moveUp() {
-        boolean moving = false;
-        for (Node node : tileGroup.getChildren()) {
-            Tile t = (Tile)node;
-            if(t != null && t.moved == false) {
-                moving = true;
-                if((t.getY() - inc) >= yMin) {
-                    for(Node node2 : tileGroup.getChildren()) {
-                        Tile tile = (Tile)node2;         
-                        if(t != tile && t.getBoundsInLocal().intersects(tile.getBoundsInLocal())
-                           && tile.moved == true) {
-                            t.moved = true;
-                            t.setY(tile.getY() + 112);
-                        } //if
-                    } //for
-                } else {
-                    t.moved = true;
-                    t.setY(yMin);
-                }
-                if(t.moved == false) {
-                    t.setY(t.getY() - inc);
-                } //if
-            } //if  
-        } //for
-        if(moving == false) {
-            tlUp.stop();
-            addNewTile();
-            resetMoved();
-        }
-    } //moveUp
-
-    private void moveDown() {
-        boolean moving = false;
-        for (Node node : tileGroup.getChildren()) {
-            Tile t = (Tile)node;
-            if(t != null && t.moved == false) {
-                moving = true;
-                if((t.getY() + inc) <= yMax) {
-                    for(Node node2 : tileGroup.getChildren()) {
-                        Tile tile = (Tile)node2;         
-                        if(t != tile && t.getBoundsInLocal().intersects(tile.getBoundsInLocal())
-                           && tile.moved == true) {
-                            t.moved = true;
-                            t.setY(tile.getY() - 112);
-                        } //if
-                    } //for
-                } else {
-                    t.moved = true;
-                    t.setY(yMax);
-                }
-                if(t.moved == false) {
-                    t.setY(t.getY() + inc);
-                } //if
-            } //if  
-        } //for
-        if(moving == false) {
-            tlDown.stop();
-            addNewTile();
-            resetMoved();
-        }
-    } //moveDown
-
-    private void moveLeft() {
-        boolean moving = false;
-        for (Node node : tileGroup.getChildren()) {
-            Tile t = (Tile)node;
-            if(t != null && t.moved == false) {
-                moving = true;
-                if((t.getX() - inc) >= xMin) {
-                    for(Node node2 : tileGroup.getChildren()) {
-                        Tile tile = (Tile)node2;         
-                        if(t != tile && t.getBoundsInLocal().intersects(tile.getBoundsInLocal())
-                           && tile.moved == true) {
-                            t.moved = true;
-                            t.setX(tile.getX() + 112);
-                        } //if
-                    } //for
-                } else {
-                    t.moved = true;
-                    t.setX(xMin);
-                }
-                if(t.moved == false) {
-                    t.setX(t.getX() - inc);
-                } //if
-            } //if  
-        } //for
-        if(moving == false) {
-            tlLeft.stop();
-            addNewTile();
-            resetMoved();
-        }
-    } //moveLeft
     
     public void resetMoved() {
         for(Node node : tileGroup.getChildren()) {
             Tile t = (Tile)node;
             if(t != null) {
                 t.moved = false;
+                t.merge = false;
             }
         }
     }
 
-    private void moveRight() {
-        if(tlLeft.getStatus() == Animation.Status.STOPPED) {
-            boolean moving = false;
-            for (Node node : tileGroup.getChildren()) {
-                Tile t = (Tile)node;
-                if(t != null && t.moved == false) {
-                    moving = true;
-                    if((t.getX() + inc) <= xMax) {
-                        for(Node node2 : tileGroup.getChildren()) {
-                            Tile tile = (Tile)node2;
-                            if(t != tile && t.getBoundsInLocal().intersects(tile.getBoundsInLocal())
-                               && tile.moved == true) {
-                                t.moved = true;
-                                t.setX(tile.getX() - 112);
-                            } //if
-                        } //for
-                    } else {
-                        t.moved = true;
-                        t.setX(xMax);
-                    }
-                    if(t.moved == false) {
-                        t.setX(t.getX() + inc);
-                    } //if
-                } //if  
-            } //for
-            if(moving == false) {
-                tlRight.stop();
-                updateTilesRight();
-                for(int i = 0; i < 9; i++) {
-                    moveRight(); //Shouldn't call updateTilesRight
-                }
-                addNewTile();
-                resetMoved();
-            }
-        }
-    } //moveRight
+    private static int indexToCoordinate(int index) {
+        return 12+(112*index);
+    }
     
     private void addNewTile() {
         boolean added = false;
         boolean fullBoard = true;
+        Tile t = new Tile();
+        tileGroup.getChildren().add(t);
+        int xIndex, yIndex;
+        while(added == false) {
+            xIndex = (int)(Math.random() * 4);
+            yIndex = (int)(Math.random() * 4);
+            if(tiles[yIndex][xIndex] == null) {
+                tiles[yIndex][xIndex] = t;
+                setNewTileXY(xIndex, yIndex, t);
+                added = true;
+            } //if
+        } //while
         for(int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if(tiles[i][j] == null) {
@@ -269,54 +148,246 @@ public class Game2048 {
                 }
             }
         }
-        if(fullBoard == false) {
-            Tile t = new Tile();
-            tileGroup.getChildren().add(t);
-            int xIndex, yIndex;
-            while(added == false) {
-                xIndex = (int)(Math.random() * 4);
-                yIndex = (int)(Math.random() * 4);
-                if(tiles[yIndex][xIndex] == null) {
-                    tiles[yIndex][xIndex] = t;
-                    setNewTileXY(xIndex, yIndex, t);
-                    added = true;
-                } //if
-            } //while
-        } else {
+        if(fullBoard == true) {
             System.out.println("Game Over");
-        }
-    }
+        } //if
+    } //addNewTile
 
+
+    private void moveRight() {
+        boolean moving = false;
+        for (Node node : tileGroup.getChildren()) {
+            Tile t = (Tile)node;
+            if(t != null && t.moved == false) {
+                moving = true;
+                if((t.getX() + 12) <= indexToCoordinate(t.xIndex)) {
+                    t.setX(t.getX() + 12);
+                } else {
+                    t.moved = true;
+                    t.setX(indexToCoordinate(t.xIndex));
+                }
+            } //if  
+        } //for
+        if(moving == false) { //if all tiles are done moving
+            tlRight.stop();
+            ArrayList<Tile> toRemove = new ArrayList<>();
+            for(Node node : tileGroup.getChildren()) {
+                Tile t = (Tile)node;
+                if(t.remove == true) {
+                    toRemove.add(t);
+                }
+            }
+            for(Tile t : toRemove) {
+                tileGroup.getChildren().remove(t);
+            }
+            mergeTilesRight();
+            resetMoved();
+            addNewTile();
+        }
+    } //moveRight
+    
     private void updateTilesRight() {
         for(int i = 0; i < 4; i++) {
             for (int j = 2; j >= 0; j--) {
                 if(tiles[i][j] != null) {
-                    while(tiles[i][j+1] == null) {
-                        tiles[i][j+1] = tiles[i][j];
-                        tiles[i][j] = null;
+                    int k = j;
+                    while(k!=3 && tiles[i][k+1] == null) {
+                        tiles[i][k+1] = tiles[i][k];
+                        tiles[i][k+1].xIndex = k+1;
+                        tiles[i][k] = null;
+                        k++;
                     } //while
-                    if(tiles[i][j+1].merge(tiles[i][j])) {
-                        tileGroup.getChildren().remove(tiles[i][j]);
-                        tiles[i][j] = null;
+                    if(k!=3 && tiles[i][k+1].canMerge(tiles[i][k])) {
+                        tiles[i][k+1].merge = true;
+                        tiles[i][k].remove = true;
+                        tiles[i][k].xIndex = k+1;
+                        tiles[i][k] = null;
+                    }
+                } //if
+            } //for
+        } //for
+    }
+    //TODO
+    private void mergeTilesRight() {
+        for(int i = 0; i < 4; i++) {
+            for (int j = 3; j >= 0; j--) {
+                if(tiles[i][j] != null && tiles[i][j].merge == true) {
+                    tiles[i][j].merge();
+                }
+                // if(tiles[i][j] != null && tiles[i][j+1] != null) {
+                //     if(tiles[i][j+1].canMerge(tiles[i][j])) {
+                //         score += tiles[i][j+1].merge(tiles[i][j]);
+                //         tileGroup.getChildren().remove(tiles[i][j]);
+                //         tiles[i][j] = null;
+                //     }
+                // }
+            }
+        }
+    }
+
+    
+    private void moveLeft() {
+        boolean moving = false;
+        for (Node node : tileGroup.getChildren()) {
+            Tile t = (Tile)node;
+            if(t != null && t.moved == false) {
+                moving = true;
+                if((t.getX() - 12) >= indexToCoordinate(t.xIndex)) {
+                    t.setX(t.getX() - 12);
+                } else {
+                    t.moved = true;
+                    t.setX(indexToCoordinate(t.xIndex));
+                }
+            } //if  
+        } //for
+        if(moving == false) {
+            tlLeft.stop();
+            mergeTilesLeft();
+            resetMoved();
+            addNewTile();
+        }
+    } //moveLeft
+    
+    private void updateTilesLeft() {
+        for(int i = 0; i < 4; i++) {
+            for (int j = 1; j < 4; j++) {
+                if(tiles[i][j] != null) {
+                    int k = j;
+                    while(k != 0 && tiles[i][k-1] == null) {
+                        tiles[i][k-1] = tiles[i][k];
+                        tiles[i][k-1].xIndex = k - 1;
+                        tiles[i][k] = null;
+                        k--;
+                    } //while
+                    if(k != 0 && tiles[i][k-1].canMerge(tiles[i][k])) {
+                        tiles[i][k].xIndex = k - 1;
                     }
                 } //if
             }
         }
     }
 
-    private void updateTilesLeft() {
+    private void mergeTilesLeft() {
         for(int i = 0; i < 4; i++) {
             for (int j = 1; j < 4; j++) {
-                if(tiles[i][j] != null) {
-                    while(tiles[i][j-1] == null) {
-                        tiles[i][j-1] = tiles[i][j];
-                        tiles[i][j] = null;
-                    } //while
-                    if(tiles[i][j-1].merge(tiles[i][j])) {
+                if(tiles[i][j] != null && tiles[i][j-1] != null) {
+                    if(tiles[i][j-1].canMerge(tiles[i][j])) {
+                        score += tiles[i][j-1].merge(tiles[i][j]);
                         tileGroup.getChildren().remove(tiles[i][j]);
                         tiles[i][j] = null;
                     }
+                }
+            }
+        }
+    }
+
+    private void moveDown(){
+        boolean moving = false;
+        for (Node node : tileGroup.getChildren()) {
+            Tile t = (Tile)node;
+            if(t != null && t.moved == false) {
+                moving = true;
+                if((t.getY() + 12) <= indexToCoordinate(t.yIndex)) {
+                    t.setY(t.getY() + 12);
+                } else {
+                    t.moved = true;
+                    t.setY(indexToCoordinate(t.yIndex));
                 } //if
+            } //if  
+        } //for
+        if(moving == false) {
+            tlDown.stop();
+            mergeTilesDown();
+            resetMoved();
+            addNewTile();
+        }
+    } //moveDown
+    
+    private void updateTilesDown() {
+        for(int j = 0; j < 4; j++) {
+            for (int i = 2; i >= 0; i--) {
+                if(tiles[i][j] != null) {
+                    int k = i;
+                    while(k != 3 && tiles[k + 1][j] == null) {
+                        tiles[k + 1][j] = tiles[k][j];
+                        tiles[k+1][j].yIndex = k+1;
+                        tiles[k][j] = null;
+                        k++;
+                    } //while
+                    if(k != 3 && tiles[k+1][j].canMerge(tiles[k][j])) {
+                        tiles[k][j].yIndex = k+1;
+                    }
+                } //if
+            }
+        }
+    }
+
+    private void mergeTilesDown() {
+        for(int j = 0; j < 4; j++) {
+            for (int i = 2; i >= 0; i--) {
+                if(tiles[i][j] != null && tiles[i+1][j] != null) {
+                    if(tiles[i+1][j].canMerge(tiles[i][j])) {
+                        score += tiles[i+1][j].merge(tiles[i][j]);
+                        tileGroup.getChildren().remove(tiles[i][j]);
+                        tiles[i][j] = null;
+                    }
+                }
+            }
+        }
+    }
+
+     
+    private void moveUp() {
+        boolean moving = false;
+        for (Node node : tileGroup.getChildren()) {
+            Tile t = (Tile)node;
+            if(t != null && t.moved == false) {
+                moving = true;
+                if((t.getY() - 12) >= indexToCoordinate(t.yIndex)) {
+                    t.setY(t.getY() - 12);
+                } else {
+                    t.moved = true;
+                    t.setY(indexToCoordinate(t.yIndex));
+                }
+            } //if  
+        } //for
+        if(moving == false) {
+            tlUp.stop();
+            mergeTilesUp();
+            addNewTile();
+            resetMoved();
+        }
+    } //moveUp
+    
+    private void updateTilesUp() {
+        for(int j = 0; j < 4; j++) {
+            for (int i = 1; i < 4; i++) {
+                if(tiles[i][j] != null) {
+                    int k = i;
+                    while(k != 0 && tiles[k - 1][j] == null) {
+                        tiles[k - 1][j] = tiles[k][j];
+                        tiles[k-1][j].yIndex = k - 1;
+                        tiles[k][j] = null;
+                        k--;
+                    } //while
+                    if(k != 0 && tiles[k-1][j].canMerge(tiles[k][j])) {
+                        tiles[k][j].yIndex = k - 1;
+                    }
+                } //if
+            }
+        }
+    }
+   
+    private void mergeTilesUp() {
+        for(int j = 0; j < 4; j++) {
+            for (int i = 1; i < 4; i++) {
+                if(tiles[i][j] != null && tiles[i-1][j] != null) {
+                    if(tiles[i-1][j].canMerge(tiles[i][j])) {
+                        score += tiles[i-1][j].merge(tiles[i][j]);
+                        tileGroup.getChildren().remove(tiles[i][j]);
+                        tiles[i][j] = null;
+                    }
+                }
             }
         }
     }
@@ -326,6 +397,8 @@ public class Game2048 {
         int yCoordinate = 12 + (112*y);
         t.setX(xCoordinate);
         t.setY(yCoordinate);
+        t.xIndex = x;
+        t.yIndex = y;
     }
                 
 }

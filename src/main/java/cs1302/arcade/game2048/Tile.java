@@ -3,8 +3,11 @@ import javafx.scene.image.*;
 
 public class Tile extends ImageView {
     private int value;
+    public int xIndex, yIndex;
     public boolean moved = false;
-
+    public boolean merge = false;
+    public boolean remove = false;
+    
     /** Creates a new {@code Tile} and randomly sets its value to 2 or 4. */ 
     public Tile() {
         super();
@@ -27,12 +30,21 @@ public class Tile extends ImageView {
         return value;
     }
     
-    public boolean merge(Tile t) {
+    public boolean canMerge(Tile t) {
         if(t != null && value == t.getValue()) {
-            setValue(value * 2);
             return true;
         }
         return false;
-        
+    }
+
+    public int merge(Tile t) {
+        if(canMerge(t)) {
+            setValue(value * 2);
+        }
+        return value;
+    }
+
+    public void merge() {
+        setValue(value * 2);
     }
 }
