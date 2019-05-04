@@ -38,6 +38,7 @@ public class ArcadeApp extends Application {
     //Rectangle r = new Rectangle(20, 20); // some rectangle
     Tile r = new Tile();
     Game2048 game = new Game2048();
+    GameTetris game1 = new GameTetris();
     private Stage stage;
     
     /**
@@ -76,28 +77,33 @@ public class ArcadeApp extends Application {
 //          Scene scene2 = new Scene();
             Scene scene1;
             Font font1 = Font.font("Lucida Sans Typewriter", FontWeight.BOLD, 50);
-            Button game1 = new Button("2048 Game");
-            game1.setFont(font);
+            Button but1 = new Button("2048 Game");
+            but1.setFont(font);
     //       game.setText(text.getText());
             //game1.setPadding(new Insets(10, 50, 100, 50));
-            game1.setStyle("-fx-border-color:black; -fx-background-color: Orange");
-            game1.setOnAction(e -> {
+            but1.setStyle("-fx-border-color:black; -fx-background-color: Orange");
+            but1.setOnAction(e -> {
                     System.out.println("Launching 2048!");
-                    Scene scene2 = game.getGameScene();
-                    stage.setScene(scene2);
+                    Scene scene3 = game.getGameScene();
+                    stage.setScene(scene3);
                 });
             System.out.println("Fonts: " + javafx.scene.text.Font.getFamilies());
-            Button game2 = new Button("Tetris Game");
-            game2.setFont(font1);
-            game2.setStyle("-fx-border-color:red; -fx-background-color: blue;");
+            Button but2 = new Button("Tetris Game");
+            but2.setFont(font1);
+            but2.setStyle("-fx-border-color:red; -fx-background-color: blue;");
 //            game2.setPadding(new Insets(10, 50, 100, 50));
-            game2.setOnAction(e -> System.out.println("Launching Tetris!"));
+            but2.setOnAction(e -> {
+                    System.out.println("Launching Tetris!");
+                Scene scene2 = game1.getGameScene();
+                stage.setScene(scene2);
+                });
+                
             Button exit = new Button("Exit");
             exit.setStyle("-fx-background-color: Red");
             exit.setOnAction(e -> System.exit(0));
             style.setPadding(new Insets(50, 10, 50, 50));
           
-            VBox newPane = new VBox(game1, style, game2, exit);
+            VBox newPane = new VBox(but1, style, but2, exit);
             
             newPane.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
             scene1 = new Scene(newPane);
@@ -116,10 +122,6 @@ public class ArcadeApp extends Application {
 
             
         }
-
-
-
-
 
 
     /** {@inheritdoc} */

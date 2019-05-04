@@ -1,9 +1,18 @@
 package cs1302.arcade.gameTetris.shapes;
 
-public interface Piece{
+public abstract class Piece{
+    //represents current shape
+    int [][] main;
 
-//    int [][] coordinates;
+    
 
+
+    
+    //public abstract void rotate()
+
+
+
+    
 }
 
     
