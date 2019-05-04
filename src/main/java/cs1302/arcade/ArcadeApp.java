@@ -40,7 +40,7 @@ public class ArcadeApp extends Application {
     Tile r = new Tile();
     Game2048 game = new Game2048();
 
-    GameTetris game1 = new GameTetris();
+    GameTetris game_1 = new GameTetris();
     private Stage stage;
     
     /**
