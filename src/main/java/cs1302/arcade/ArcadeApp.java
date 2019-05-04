@@ -68,89 +68,60 @@ public class ArcadeApp extends Application {
 	};
     } // createKeyHandler
 
-
-  public void mainMenu()
-        {
-            Pane mainMenu;
-            Font font = Font.font("DejaVu Sans Light", FontWeight.BOLD, 50);
-//          Scene scene2 = new Scene();
-            Scene scene1;
-            Font font1 = Font.font("Lucida Sans Typewriter", FontWeight.BOLD, 50);
-            Button game1 = new Button("2048 Game");
-            game1.setFont(font);
-    //       game.setText(text.getText());
-            //game1.setPadding(new Insets(10, 50, 100, 50));
-            game1.setStyle("-fx-border-color:black; -fx-background-color: Orange");
-            game1.setOnAction(e -> {
-                    System.out.println("Launching 2048!");
-                    Scene scene2 = game.getGameScene();
-                    stage.setScene(scene2);
-                });
-            System.out.println("Fonts: " + javafx.scene.text.Font.getFamilies());
-            Button game2 = new Button("Tetris Game");
-            game2.setFont(font1);
-            game2.setStyle("-fx-border-color:red; -fx-background-color: blue;");
+    
+    public void mainMenu() {
+      Pane mainMenu;
+      Font font = Font.font("DejaVu Sans Light", FontWeight.BOLD, 50);
+      Scene scene1;
+      Font font1 = Font.font("Lucida Sans Typewriter", FontWeight.BOLD, 50);
+      Button game1 = new Button("2048 Game");
+      game1.setFont(font);
+      //       game.setText(text.getText());
+      //game1.setPadding(new Insets(10, 50, 100, 50));
+      game1.setStyle("-fx-border-color:black; -fx-background-color: Orange");
+      game1.setOnAction(e -> {
+              System.out.println("Launching 2048!");
+              Scene scene2 = game.getGameScene();
+              stage.setScene(scene2);
+          });
+      System.out.println("Fonts: " + javafx.scene.text.Font.getFamilies());
+      Button game2 = new Button("Tetris Game");
+      game2.setFont(font1);
+      game2.setStyle("-fx-border-color:red; -fx-background-color: blue;");
 //            game2.setPadding(new Insets(10, 50, 100, 50));
-            game2.setOnAction(e -> System.out.println("Launching Tetris!"));
-            Button exit = new Button("Exit");
-            exit.setStyle("-fx-background-color: Red");
-            exit.setOnAction(e -> System.exit(0));
-            style.setPadding(new Insets(50, 10, 50, 50));
+      game2.setOnAction(e -> System.out.println("Launching Tetris!"));
+      Button exit = new Button("Exit");
+      exit.setStyle("-fx-background-color: Red");
+      exit.setOnAction(e -> System.exit(0));
+      style.setPadding(new Insets(50, 10, 50, 50));
           
-            VBox newPane = new VBox(game1, style, game2, exit);
-            
-            newPane.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-            scene1 = new Scene(newPane);
-            stage.setScene(scene1);
-            
-          
-            /* game1.setOnAction(e -> new EventHandler<ActionEvent>(){
-                    @Override
+      VBox newPane = new VBox(game1, style, game2, exit);
+      
+      newPane.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+      scene1 = new Scene(newPane);
+      stage.setScene(scene1);
+      
+      /* game1.setOnAction(e -> new EventHandler<ActionEvent>(){
+         @Override
                     public void handle(ActionEvent event) {
-                        System.out.println("Launching 2048!");
-                        scene2 = game.getGameScene();
-                        scene1.getChildren().add(scene2);
+                    System.out.println("Launching 2048!");
+                    scene2 = game.getGameScene();
+                    scene1.getChildren().add(scene2);
                     }
                 });
             */
 
             
-        }
-
-
-
-
-
-
+  }
     /** {@inheritdoc} */
     @Override
     public void start(Stage stage) {
-
-        /* You are allowed to rewrite this start method, add other methods,
-         * files, classes, etc., as needed. This currently contains some
-         * simple sample code for mouse and keyboard interactions with a node
-         * (rectangle) in a group.
-         */
-
-        r.setX(50);                                // 50px in the x direction (right)
-        r.setY(50);                                // 50ps in the y direction (down)
-        group.getChildren().add(r);                // add to main container
-        r.setOnMouseClicked(createMouseHandler()); // clicks on the rectangle move it randomly
-        group.setOnKeyPressed(createKeyHandler()); // left-right key presses move the rectangle
         this.stage = stage;
         Scene scene = new Scene(group, 480, 640);
         stage.setTitle("cs1302-arcade!");
 
         mainMenu();
-        //stage.setScene(game.getGameScene());
-        //stage.setScene(scene);
         stage.sizeToScene();
         stage.show();
-
-        // the group must request input focus to receive key events
-        // @see https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Node.html#requestFocus--
-        //group.requestFocus();
-
     } // start
-
 } // ArcadeApp

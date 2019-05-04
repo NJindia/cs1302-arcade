@@ -22,43 +22,57 @@ public class Game2048 {
     /** 4x4 array to store tiles and their positions */
     Tile[][] tiles = new Tile[4][4];
 
+    /** Timelines for different movement directions**/
     Timeline tlRight = new Timeline();
     Timeline tlLeft = new Timeline();
     Timeline tlUp = new Timeline();
     Timeline tlDown = new Timeline();
 
-    Text hiScore = new Text();
     Text score = new Text();
     Pane tileGroup = new Pane(); //Stores the tiles
     VBox vbox;
+
     int points = 0;  //IF 2 tiles merge, add the merged tile's value to the score
 
+    /**
+     * Creates the 2048 game scene.
+     * @return the scene for 2048
+     */
     public Scene getGameScene () {
         updateScore(0);
         score.setFont(new Font(20));
-        hiScore.setFont(new Font(20));
-        HBox scores = new HBox(score, hiScore);
-
-        Button b = new Button("New Game");
+        HBox scores = new HBox(score);
+        scores.setSpacing(30);
+        
+        Button b = new Button("New Game") {
+                public void requestFocus() { } //Prevents b from taking focus
+            };
         b.setOnAction(e -> newGame());
-        Button b2 = new Button("Back to Games List");
+        Button b2 = new Button("Back to Games List") {
+                public void requestFocus() { } //Prevents b2 from taking focus
+            };
         b2.setOnAction(e -> mainMenu());
-       
         HBox buttons = new HBox(b, b2);
         
-        scores.setSpacing(30);
         BackgroundSize size = new BackgroundSize(460, 460, false, false, false, false);
         Image image = new Image("file:src/main/resources/TileBackground.png");
         BackgroundImage background = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,
                                                          BackgroundRepeat.NO_REPEAT, null, size);
         tileGroup.setBackground(new Background(background));
         tileGroup.setPrefSize(460, 460);
-        newGame();
-               
-        vbox = new VBox(scores, buttons, tileGroup);
         
-        Scene scene = new Scene(vbox, 460, 640);
+        setTimelines();
+        newGame();
 
+        vbox = new VBox(scores, buttons, tileGroup);
+        Scene scene = new Scene(vbox, 460, 640);
+        tileGroup.setOnKeyPressed(createKeyHandler());
+        tileGroup.requestFocus();
+        return scene;
+    } //getGameScene
+
+    /** Sets each of the 4 timelines to move the tiles at 60fps. */
+    private void setTimelines() {
         EventHandler<ActionEvent> handlerRight = event -> moveRight();
         EventHandler<ActionEvent> handlerLeft = event -> moveLeft();
         EventHandler<ActionEvent> handlerDown = event -> moveDown();
@@ -75,13 +89,13 @@ public class Game2048 {
         tlLeft.getKeyFrames().add(keyframeLeft);
         tlUp.getKeyFrames().add(keyframeUp);
         tlDown.getKeyFrames().add(keyframeDown);
-        
-        tileGroup.setOnKeyPressed(createKeyHandler());
-        tileGroup.requestFocus();
-        
-        return scene;
-    }
+    } //setTimelines
 
+    /**
+     * Creates and returns a KeyEvent EventHandler that plays one of the timelines depending on what
+     * arrow key the user presses.
+     * @return an EventHandler that handles KeyEvents
+     */
     private EventHandler<? super KeyEvent> createKeyHandler() {
         return e -> {
             if (e.getCode() == KeyCode.RIGHT &&
@@ -109,36 +123,48 @@ public class Game2048 {
                 updateTilesDown();
                 tlDown.play();
             } //if
-        };
+        }; //return
     } //createKeyHandler
 
+    /** Clears the board, sets score to 0, and adds 2 tiles to the board to start a new game. */
     private void newGame() {
         tileGroup.getChildren().clear();
         updateScore(0);
         tiles = new Tile[4][4];
         addNewTile();
         addNewTile();
-    }
+    } //newGame
 
+    /** Changes the scene to that of the main menu. */
     private void mainMenu() {
         ArcadeApp app = new ArcadeApp();
         app.mainMenu();
-    }
-    
+    } //mainMenu
+
+    /** Resets the {@code moved} property for all tiles on the board. */
     public void resetMoved() {
         for(Node node : tileGroup.getChildren()) {
             Tile t = (Tile)node;
             if(t != null) {
                 t.moved = false;
                 t.merge = false;
-            }
-        }
-    }
+            } //if
+        } //for
+    } //resetMoved
 
+    /**
+     * Converts a tile's position in a 4x4 2D array to actual coordinates.
+     * @param index the specified index that is to be converted to coordinates
+     * @return the coordinate translation of an index position
+     */
     private static int indexToCoordinate(int index) {
         return 12+(112*index);
-    }
-    
+    } //indexToCoordinate
+
+    /** 
+     * Randomly adds a tile to one of the empty spaces on the board. 
+     * The tile can either have a value of 2 or 4.
+     */
     private void addNewTile() {
         boolean added = false;
         boolean fullBoard = true;
@@ -158,49 +184,64 @@ public class Game2048 {
             for (int j = 0; j < 4; j++) {
                 if(tiles[i][j] == null) {
                     fullBoard = false;
-                }
-            }
-        }
+                } //if
+            } //for
+        } //for
         if(fullBoard == true) {
-            System.out.println("Game Over");
+            gameOver();
         } //if
     } //addNewTile
 
+    /** Ends the game. */
+    private void gameOver() {
+        System.out.println("Game Over");
+    } //gameOver
+
+    /** Removes all tiles with a true {@code remove} property from {@code tileGroup}. */
     private void remove() {
         ArrayList<Tile> toRemove = new ArrayList<>();
         for(Node node : tileGroup.getChildren()) {
             Tile t = (Tile)node;
             if(t.remove == true) {
                 toRemove.add(t);
-            }
-        }
+            } //if
+        } //for
         for(Tile t : toRemove) {
             tileGroup.getChildren().remove(t);
-        }
-    }
+        } //for
+    } //remove
 
+    /** Merges all tiles with a true {@code merge} property and updates the score. */
     public void merge() {
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {
                 if(tiles[i][j] != null && tiles[i][j].merge == true) {
                     tiles[i][j].merge();
                     updateScore(tiles[i][j].getValue());
-                }
-            }
-        }
-    }
+                } //if
+            } //for
+        } //for
+    } //merge
 
+    /** 
+     * Adds the specified number of points to {@code score}.
+     * @param points the specified number of points to add to the score
+     */
     public void updateScore(int points) {
         if(points == 0) {
             this.points = 0;
         } else {
             this.points += points;
-        }
+        } //if
         String text = "Score: " + this.points;
         score.setText(text);
-    }
-    
-    private void moveRight() {
+    } //updateScore
+
+    /**
+     * Moves all the tiles right 12px. If the tiles are done moving, stops the timeline,
+     * adds a new tile to the board, and merges/removes tiles as necessary.
+     */
+     private void moveRight() {
         boolean moving = false;
         for (Node node : tileGroup.getChildren()) {
             Tile t = (Tile)node;
@@ -211,7 +252,7 @@ public class Game2048 {
                 } else {
                     t.moved = true;
                     t.setX(indexToCoordinate(t.xIndex));
-                }
+                } //if
             } //if  
         } //for
         if(moving == false) { //if all tiles are done moving
@@ -220,9 +261,13 @@ public class Game2048 {
             merge();
             resetMoved();
             addNewTile();
-        }
+        } //if
     } //moveRight
-    
+
+    /**
+     * Updates the {@code tiles} 2D array to reflect all the tiles moving as far right as possible.
+     * Also updates each tile's {@code remove} and {@code merge} properties where appropriate.
+     */
     private void updateTilesRight() {
         for(int i = 0; i < 4; i++) {
             for (int j = 2; j >= 0; j--) {
@@ -243,9 +288,12 @@ public class Game2048 {
                 } //if
             } //for
         } //for
-    }
-    //TODO
-       
+    } //updateTilesRight
+    
+    /**
+     * Moves all the tiles left 12px. If the tiles are done moving, stops the timeline,
+     * adds a new tile to the board, and merges/removes tiles as necessary.
+     */
     private void moveLeft() {
         boolean moving = false;
         for (Node node : tileGroup.getChildren()) {
@@ -257,7 +305,7 @@ public class Game2048 {
                 } else {
                     t.moved = true;
                     t.setX(indexToCoordinate(t.xIndex));
-                }
+                } //if
             } //if  
         } //for
         if(moving == false) { //if all tiles are done moving
@@ -266,9 +314,13 @@ public class Game2048 {
             merge();
             resetMoved();
             addNewTile();
-        }
+        } //if
     } //moveLeft
-    
+
+    /**
+     * Updates the {@code tiles} 2D array to reflect all the tiles moving as far left as possible.
+     * Also updates each tile's {@code remove} and {@code merge} properties where appropriate.
+     */
     private void updateTilesLeft() {
         for(int i = 0; i < 4; i++) {
             for (int j = 1; j < 4; j++) {
@@ -285,12 +337,17 @@ public class Game2048 {
                         tiles[i][k].remove = true;
                         tiles[i][k].xIndex = k-1;
                         tiles[i][k] = null;
-                    }
+                    } //if
                 } //if
-            }
-        }
-    }
+            } //for
+        } //for
+    } //updateTilesLeft
 
+    
+    /**
+     * Moves all the tiles down 12px. If the tiles are done moving, stops the timeline,
+     * adds a new tile to the board, and merges/removes tiles as necessary.
+     */
     private void moveDown(){
         boolean moving = false;
         for (Node node : tileGroup.getChildren()) {
@@ -311,9 +368,13 @@ public class Game2048 {
             merge();
             resetMoved();
             addNewTile();
-        }
+        } //if
     } //moveDown
-    
+
+    /**
+     * Updates the {@code tiles} 2D array to reflect all the tiles moving as far down as possible.
+     * Also updates each tile's {@code remove} and {@code merge} properties where appropriate.
+     */
     private void updateTilesDown() {
         for(int j = 0; j < 4; j++) {
             for (int i = 2; i >= 0; i--) {
@@ -330,12 +391,16 @@ public class Game2048 {
                         tiles[k][j].remove = true;
                         tiles[k][j].yIndex = k+1;
                         tiles[k][j] = null;
-                    }
+                    } //if
                 } //if
-            }
-        }
-    }
-
+            } //for
+        } //for
+    } //updateTilesDown
+    
+    /**
+     * Moves all the tiles up 12px. If the tiles are done moving, stops the timeline,
+     * adds a new tile to the board, and merges/removes tiles as necessary.
+     */
     private void moveUp() {
         boolean moving = false;
         for (Node node : tileGroup.getChildren()) {
@@ -347,7 +412,7 @@ public class Game2048 {
                 } else {
                     t.moved = true;
                     t.setY(indexToCoordinate(t.yIndex));
-                }
+                } //if
             } //if  
         } //for
         if(moving == false) {
@@ -356,9 +421,13 @@ public class Game2048 {
             remove();
             resetMoved();
             addNewTile();
-        }
+        } //if
     } //moveUp
-    
+
+    /**
+     * Updates the {@code tiles} 2D array to reflect all the tiles moving as far up as possible.
+     * Also updates each tile's {@code remove} and {@code merge} properties where appropriate.
+     */
     private void updateTilesUp() {
         for(int j = 0; j < 4; j++) {
             for (int i = 1; i < 4; i++) {
@@ -375,12 +444,18 @@ public class Game2048 {
                         tiles[k][j].remove = true;
                         tiles[k][j].yIndex = k-1;
                         tiles[k][j] = null;
-                    }
+                    } //if
                 } //if
-            }
-        }
-    }
-   
+            } //for
+        } //for
+    } //updateTilesUp
+
+    /** 
+     * Sets a specified Tile's X and Y coordinates. Should only be called on freshly made Tiles.
+     * @param x the specified x coordinate to set {@code t} to
+     * @param y the specified y coordinate to set {@code t} to
+     * @param t the specified Tile to set the x and y coordinates of
+     */
     private void setNewTileXY(int x, int y, Tile t) {
         int xCoordinate = 12 + (112*x);
         int yCoordinate = 12 + (112*y);
@@ -388,6 +463,6 @@ public class Game2048 {
         t.setY(yCoordinate);
         t.xIndex = x;
         t.yIndex = y;
-    }
+    } //setNewTileXY
                 
 }
