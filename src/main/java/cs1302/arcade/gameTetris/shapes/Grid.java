@@ -5,11 +5,8 @@ import javafx.scene.layout.TilePane;
 
 public class Grid{
 
-    Element[][] newGrid;
+/*    Element[][] newGrid;
 
-    /** 
-     * constructs an empty grid of elements
-     */
     public Grid()
         {
             //making grid of correct size
@@ -25,4 +22,6 @@ public class Grid{
                 }
             }
         }
+
+*/
 }

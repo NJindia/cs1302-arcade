@@ -11,6 +11,7 @@ import javafx.scene.*;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import cs1302.arcade.game2048.*;
+import cs1302.arcade.gameTetris.*;
 import java.util.Random;
 import javafx.scene.control.Separator;
 import javafx.application.Application;
@@ -38,6 +39,7 @@ public class ArcadeApp extends Application {
     //Rectangle r = new Rectangle(20, 20); // some rectangle
     Tile r = new Tile();
     Game2048 game = new Game2048();
+
     GameTetris game1 = new GameTetris();
     private Stage stage;
     
@@ -89,7 +91,12 @@ public class ArcadeApp extends Application {
         game2.setFont(font1);
         game2.setStyle("-fx-border-color:red; -fx-background-color: blue;");
 //            game2.setPadding(new Insets(10, 50, 100, 50));
-        game2.setOnAction(e -> System.out.println("Launching Tetris!"));
+        game2.setOnAction(e ->{
+                System.out.println("Launching Tetris!");
+                scene1 = game1.getGameScene();
+                stage.setScene(scene1);
+            });
+                             
         Button exit = new Button("Exit");
         exit.setStyle("-fx-background-color: Red");
         exit.setOnAction(e -> System.exit(0));
