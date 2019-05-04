@@ -45,9 +45,9 @@ public class Board
         {
 //           board = new Rectangle[10][24];   
            int shapeNum = 1;
-           Rectangle e1 = new Rectangle(30, 30);
-           Rectangle e2 = new Rectangle(30, 30);
-           Rectangle e3 = new Rectangle(30, 30);
+           Rectangle e1 = new Rectangle(29, 29);
+           Rectangle e2 = new Rectangle(29, 29);
+           Rectangle e3 = new Rectangle(29, 29);
            Rectangle e4 = new Rectangle(30, 30);
            if(shapeNum == 1)
            {
