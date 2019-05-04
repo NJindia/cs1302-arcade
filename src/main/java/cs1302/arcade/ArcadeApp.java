@@ -72,29 +72,24 @@ public class ArcadeApp extends Application {
     } // createKeyHandler
 
     public void mainMenu() {
-        Pane mainMenu;
         Font font = Font.font("DejaVu Sans Light", FontWeight.BOLD, 50);
         Scene scene1;
         Font font1 = Font.font("Lucida Sans Typewriter", FontWeight.BOLD, 50);
-        Button game1 = new Button("2048 Game");
-        game1.setFont(font);
-        //       game.setText(text.getText());
-        //game1.setPadding(new Insets(10, 50, 100, 50));
-        game1.setStyle("-fx-border-color:black; -fx-background-color: Orange");
-        game1.setOnAction(e -> {
+        Button b1 = new Button("2048 Game");
+        b1.setFont(font);
+        b1.setStyle("-fx-border-color:black; -fx-background-color: Orange");
+        b1.setOnAction(e -> {
                 System.out.println("Launching 2048!");
-                Scene scene2 = game.getGameScene();
-                stage.setScene(scene2);
+                stage.setScene(game.getGameScene());
             });
         System.out.println("Fonts: " + javafx.scene.text.Font.getFamilies());
-        Button game2 = new Button("Tetris Game");
-        game2.setFont(font1);
-        game2.setStyle("-fx-border-color:red; -fx-background-color: blue;");
+        Button b2 = new Button("Tetris Game");
+        b2.setFont(font1);
+        b2.setStyle("-fx-border-color:red; -fx-background-color: blue;");
 //            game2.setPadding(new Insets(10, 50, 100, 50));
-        game2.setOnAction(e ->{
+        b2.setOnAction(e ->{
                 System.out.println("Launching Tetris!");
-                scene1 = game1.getGameScene();
-                stage.setScene(scene1);
+                stage.setScene(game1.getGameScene());
             });
                              
         Button exit = new Button("Exit");
@@ -102,7 +97,7 @@ public class ArcadeApp extends Application {
         exit.setOnAction(e -> System.exit(0));
         style.setPadding(new Insets(50, 10, 50, 50));
         
-        VBox newPane = new VBox(game1, style, game2, exit);
+        VBox newPane = new VBox(b1, style, b2, exit);
         
         newPane.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
         scene1 = new Scene(newPane);

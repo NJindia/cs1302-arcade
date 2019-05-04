@@ -33,7 +33,8 @@ public class Game2048 {
     VBox vbox;
 
     int points = 0;  //IF 2 tiles merge, add the merged tile's value to the score
-
+    boolean gameOver = false;
+    
     /**
      * Creates the 2048 game scene.
      * @return the scene for 2048
@@ -98,30 +99,32 @@ public class Game2048 {
      */
     private EventHandler<? super KeyEvent> createKeyHandler() {
         return e -> {
-            if (e.getCode() == KeyCode.RIGHT &&
-                tlLeft.getStatus() == Animation.Status.STOPPED &&
-                tlUp.getStatus() == Animation.Status.STOPPED &&
-                tlDown.getStatus() == Animation.Status.STOPPED) {
-                updateTilesRight();
-                tlRight.play();
-            } else if (e.getCode() == KeyCode.LEFT &&
-                tlRight.getStatus() == Animation.Status.STOPPED &&
-                tlUp.getStatus() == Animation.Status.STOPPED &&
-                tlDown.getStatus() == Animation.Status.STOPPED) {
-                updateTilesLeft();
-                tlLeft.play();
-            } else if (e.getCode() == KeyCode.UP && 
-                tlLeft.getStatus() == Animation.Status.STOPPED &&
-                tlRight.getStatus() == Animation.Status.STOPPED &&
-                tlDown.getStatus() == Animation.Status.STOPPED) {
-                updateTilesUp();
-                tlUp.play();
-            } else if (e.getCode() == KeyCode.DOWN && 
-                tlLeft.getStatus() == Animation.Status.STOPPED &&
-                tlUp.getStatus() == Animation.Status.STOPPED &&
-                tlRight.getStatus() == Animation.Status.STOPPED) {
-                updateTilesDown();
-                tlDown.play();
+            if(gameOver == false){
+                if (e.getCode() == KeyCode.RIGHT &&
+                    tlLeft.getStatus() == Animation.Status.STOPPED &&
+                    tlUp.getStatus() == Animation.Status.STOPPED &&
+                    tlDown.getStatus() == Animation.Status.STOPPED) {
+                    updateTilesRight();
+                    tlRight.play();
+                } else if (e.getCode() == KeyCode.LEFT &&
+                           tlRight.getStatus() == Animation.Status.STOPPED &&
+                           tlUp.getStatus() == Animation.Status.STOPPED &&
+                           tlDown.getStatus() == Animation.Status.STOPPED) {
+                    updateTilesLeft();
+                    tlLeft.play();
+                } else if (e.getCode() == KeyCode.UP && 
+                           tlLeft.getStatus() == Animation.Status.STOPPED &&
+                           tlRight.getStatus() == Animation.Status.STOPPED &&
+                           tlDown.getStatus() == Animation.Status.STOPPED) {
+                    updateTilesUp();
+                    tlUp.play();
+                } else if (e.getCode() == KeyCode.DOWN && 
+                           tlLeft.getStatus() == Animation.Status.STOPPED &&
+                           tlUp.getStatus() == Animation.Status.STOPPED &&
+                           tlRight.getStatus() == Animation.Status.STOPPED) {
+                    updateTilesDown();
+                    tlDown.play();
+                } //if
             } //if
         }; //return
     } //createKeyHandler
@@ -131,6 +134,7 @@ public class Game2048 {
         tileGroup.getChildren().clear();
         updateScore(0);
         tiles = new Tile[4][4];
+        gameOver = false;
         addNewTile();
         addNewTile();
     } //newGame
@@ -194,6 +198,7 @@ public class Game2048 {
 
     /** Ends the game. */
     private void gameOver() {
+        gameOver = true;
         System.out.println("Game Over");
     } //gameOver
 
