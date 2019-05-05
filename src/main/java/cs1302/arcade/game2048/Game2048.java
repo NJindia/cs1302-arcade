@@ -16,24 +16,26 @@ import javafx.event.*;
 import javafx.scene.layout.Pane;
 import javafx.animation.Animation;
 import javafx.scene.image.*;
+import javafx.application.Platform;
+import javafx.scene.control.Alert.AlertType;
 import cs1302.arcade.ArcadeApp;
+
 public class Game2048 {
-
     /** 4x4 array to store tiles and their positions */
-    Tile[][] tiles = new Tile[4][4];
+    private Tile[][] tiles = new Tile[4][4];
 
-    /** Timelines for different movement directions**/
-    Timeline tlRight = new Timeline();
-    Timeline tlLeft = new Timeline();
-    Timeline tlUp = new Timeline();
-    Timeline tlDown = new Timeline();
+    //Timelines for different movement directions
+    private Timeline tlRight = new Timeline();
+    private Timeline tlLeft = new Timeline();
+    private Timeline tlUp = new Timeline();
+    private Timeline tlDown = new Timeline();
 
-    Text score = new Text();
-    Pane tileGroup = new Pane(); //Stores the tiles
-    VBox vbox;
+    private Text score = new Text();
+    private Pane tileGroup = new Pane(); //Stores the tiles
+    private VBox vbox;
 
-    int points = 0;  //IF 2 tiles merge, add the merged tile's value to the score
-    boolean gameOver = false;
+    private int points = 0;
+    private boolean gameOver = false;
     
     /**
      * Creates the 2048 game scene.
@@ -44,7 +46,8 @@ public class Game2048 {
         score.setFont(new Font(20));
         HBox scores = new HBox(score);
         scores.setSpacing(30);
-        
+
+        //Creates and sets behavior of buttons
         Button b = new Button("New Game") {
                 public void requestFocus() { } //Prevents b from taking focus
             };
@@ -54,7 +57,8 @@ public class Game2048 {
             };
         b2.setOnAction(e -> mainMenu());
         HBox buttons = new HBox(b, b2);
-        
+
+        //Sets size and background of tileGroup
         BackgroundSize size = new BackgroundSize(460, 460, false, false, false, false);
         Image image = new Image("file:src/main/resources/TileBackground.png");
         BackgroundImage background = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,
@@ -78,14 +82,18 @@ public class Game2048 {
         EventHandler<ActionEvent> handlerLeft = event -> moveLeft();
         EventHandler<ActionEvent> handlerDown = event -> moveDown();
         EventHandler<ActionEvent> handlerUp = event -> moveUp();
+
+        //Calls the respective handlers at 60fps
         KeyFrame keyframeRight = new KeyFrame(Duration.millis(1000/60), handlerRight);
         KeyFrame keyframeLeft = new KeyFrame(Duration.millis(1000/60), handlerLeft);
         KeyFrame keyframeUp = new KeyFrame(Duration.millis(1000/60), handlerUp);
         KeyFrame keyframeDown = new KeyFrame(Duration.millis(1000/60), handlerDown);
+
         tlRight.setCycleCount(Timeline.INDEFINITE);
         tlLeft.setCycleCount(Timeline.INDEFINITE);
         tlUp.setCycleCount(Timeline.INDEFINITE);
         tlDown.setCycleCount(Timeline.INDEFINITE);
+
         tlRight.getKeyFrames().add(keyframeRight);
         tlLeft.getKeyFrames().add(keyframeLeft);
         tlUp.getKeyFrames().add(keyframeUp);
@@ -100,35 +108,42 @@ public class Game2048 {
     private EventHandler<? super KeyEvent> createKeyHandler() {
         return e -> {
             if(gameOver == false){
-                if (e.getCode() == KeyCode.RIGHT &&
-                    tlLeft.getStatus() == Animation.Status.STOPPED &&
-                    tlUp.getStatus() == Animation.Status.STOPPED &&
-                    tlDown.getStatus() == Animation.Status.STOPPED) {
-                    updateTilesRight();
-                    tlRight.play();
-                } else if (e.getCode() == KeyCode.LEFT &&
-                           tlRight.getStatus() == Animation.Status.STOPPED &&
-                           tlUp.getStatus() == Animation.Status.STOPPED &&
-                           tlDown.getStatus() == Animation.Status.STOPPED) {
-                    updateTilesLeft();
-                    tlLeft.play();
-                } else if (e.getCode() == KeyCode.UP && 
-                           tlLeft.getStatus() == Animation.Status.STOPPED &&
-                           tlRight.getStatus() == Animation.Status.STOPPED &&
-                           tlDown.getStatus() == Animation.Status.STOPPED) {
-                    updateTilesUp();
-                    tlUp.play();
-                } else if (e.getCode() == KeyCode.DOWN && 
-                           tlLeft.getStatus() == Animation.Status.STOPPED &&
-                           tlUp.getStatus() == Animation.Status.STOPPED &&
-                           tlRight.getStatus() == Animation.Status.STOPPED) {
-                    updateTilesDown();
-                    tlDown.play();
+                if (e.getCode() == KeyCode.RIGHT && timelinesStopped()) {
+                    if(updateTilesRight()) { //If any tiles are moved/merged
+                        tlRight.play();
+                    } //if
+                } else if (e.getCode() == KeyCode.LEFT && timelinesStopped()) {
+                    if(updateTilesLeft()) { //If any tiles are moved/merged
+                        tlLeft.play();
+                    } //if
+                } else if (e.getCode() == KeyCode.UP && timelinesStopped()) {
+                    if(updateTilesUp()) { //If any tiles are moved/merged
+                        tlUp.play();
+                    } //if
+                } else if (e.getCode() == KeyCode.DOWN && timelinesStopped()) {
+                    if(updateTilesDown()) { //If any tiles are moved/merged
+                        tlDown.play();
+                    } //if
                 } //if
             } //if
         }; //return
     } //createKeyHandler
 
+    /**
+     * Returns true if all 4 timelines are stopped.
+     * @return true if all timelines are stopped, false otherwise
+     */
+    private boolean timelinesStopped() {
+        if(tlRight.getStatus() == Animation.Status.STOPPED &&
+           tlLeft.getStatus() == Animation.Status.STOPPED &&
+           tlUp.getStatus() == Animation.Status.STOPPED &&
+           tlRight.getStatus() == Animation.Status.STOPPED) {
+            return true;
+        } else {
+            return false;
+        } //if
+    } //timelinesStopped
+           
     /** Clears the board, sets score to 0, and adds 2 tiles to the board to start a new game. */
     private void newGame() {
         tileGroup.getChildren().clear();
@@ -145,7 +160,7 @@ public class Game2048 {
         app.mainMenu();
     } //mainMenu
 
-    /** Resets the {@code moved} property for all tiles on the board. */
+    /** Resets the {@code moved} and {@code merge} property for all tiles on the board. */
     public void resetMoved() {
         for(Node node : tileGroup.getChildren()) {
             Tile t = (Tile)node;
@@ -166,8 +181,9 @@ public class Game2048 {
     } //indexToCoordinate
 
     /** 
-     * Randomly adds a tile to one of the empty spaces on the board. 
-     * The tile can either have a value of 2 or 4.
+     * Randomly adds a tile to one of the empty spaces on the board. The tile can either have a 
+     * value of 2 or 4. If the board is full after adding a tile and no more moves can be made, 
+     * the game ends.
      */
     private void addNewTile() {
         boolean added = false;
@@ -175,6 +191,8 @@ public class Game2048 {
         Tile t = new Tile();
         tileGroup.getChildren().add(t);
         int xIndex, yIndex;
+
+        //Assign new tile to random empty space on board
         while(added == false) {
             xIndex = (int)(Math.random() * 4);
             yIndex = (int)(Math.random() * 4);
@@ -184,6 +202,8 @@ public class Game2048 {
                 added = true;
             } //if
         } //while
+
+        //Checks to see if board is full
         for(int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if(tiles[i][j] == null) {
@@ -191,17 +211,33 @@ public class Game2048 {
                 } //if
             } //for
         } //for
-        if(fullBoard == true) {
+        
+        //Ends the game if the board is full and no moves can be made
+        if(fullBoard == true && canMove() == false) {
             gameOver();
         } //if
     } //addNewTile
 
-    /** Ends the game. */
+    /** Ends the game and displays an {@code Alert} informing the user that the game is over. */
     private void gameOver() {
         gameOver = true;
-        System.out.println("Game Over");
+        Alert alert = new Alert(AlertType.INFORMATION,
+                                "GAME OVER. No more possible moves.\n"  +
+                                "Final score: " + points);
+        Runnable r = () -> alert.showAndWait().filter(response -> response == ButtonType.OK);
+        Platform.runLater(r);
     } //gameOver
 
+    /** Ends the game and displays an {@code Alert} informing the user that they won. */
+    private void winner() {
+        gameOver = true;
+        Alert alert = new Alert(AlertType.INFORMATION,
+                                "CONGRATS! You have reached 2048!\n" +
+                                "Final score: " + points);
+        Runnable r = () -> alert.showAndWait().filter(response -> response == ButtonType.OK);
+        Platform.runLater(r);
+    } //winner
+    
     /** Removes all tiles with a true {@code remove} property from {@code tileGroup}. */
     private void remove() {
         ArrayList<Tile> toRemove = new ArrayList<>();
@@ -217,7 +253,7 @@ public class Game2048 {
     } //remove
 
     /** Merges all tiles with a true {@code merge} property and updates the score. */
-    public void merge() {
+    private void merge() {
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {
                 if(tiles[i][j] != null && tiles[i][j].merge == true) {
@@ -230,11 +266,14 @@ public class Game2048 {
 
     /** 
      * Adds the specified number of points to {@code score}.
-     * @param points the specified number of points to add to the score
+     * @param points the specified number of points to add to the score, a value of 0
+     * will reset the score and a value of 2048 will display a winner message
      */
-    public void updateScore(int points) {
+    private void updateScore(int points) {
         if(points == 0) {
             this.points = 0;
+        } else if (points == 2048) { //If player reaches 2048
+            winner();
         } else {
             this.points += points;
         } //if
@@ -272,8 +311,10 @@ public class Game2048 {
     /**
      * Updates the {@code tiles} 2D array to reflect all the tiles moving as far right as possible.
      * Also updates each tile's {@code remove} and {@code merge} properties where appropriate.
+     * @return true if a tile is moved or merged
      */
-    private void updateTilesRight() {
+    private boolean updateTilesRight() {
+        boolean moved = false;
         for(int i = 0; i < 4; i++) {
             for (int j = 2; j >= 0; j--) {
                 if(tiles[i][j] != null) {
@@ -281,6 +322,7 @@ public class Game2048 {
                     while(k!=3 && tiles[i][k+1] == null) {
                         tiles[i][k+1] = tiles[i][k];
                         tiles[i][k+1].xIndex = k+1;
+                        moved = true; //Signifies that a tile has been moved
                         tiles[i][k] = null;
                         k++;
                     } //while
@@ -288,11 +330,13 @@ public class Game2048 {
                         tiles[i][k+1].merge = true;
                         tiles[i][k].remove = true;
                         tiles[i][k].xIndex = k+1;
+                        moved = true; //Signifies that a tile has been merged
                         tiles[i][k] = null;
-                    }
+                    } //if
                 } //if
             } //for
         } //for
+        return moved;
     } //updateTilesRight
     
     /**
@@ -325,8 +369,10 @@ public class Game2048 {
     /**
      * Updates the {@code tiles} 2D array to reflect all the tiles moving as far left as possible.
      * Also updates each tile's {@code remove} and {@code merge} properties where appropriate.
+     * @return true if a tile is moved or merged
      */
-    private void updateTilesLeft() {
+    private boolean updateTilesLeft() {
+        boolean moved = false;
         for(int i = 0; i < 4; i++) {
             for (int j = 1; j < 4; j++) {
                 if(tiles[i][j] != null) {
@@ -334,6 +380,7 @@ public class Game2048 {
                     while(k != 0 && tiles[i][k-1] == null) {
                         tiles[i][k-1] = tiles[i][k];
                         tiles[i][k-1].xIndex = k - 1;
+                        moved = true; //Signifies that a tile has been moved
                         tiles[i][k] = null;
                         k--;
                     } //while
@@ -341,11 +388,13 @@ public class Game2048 {
                         tiles[i][k-1].merge = true;
                         tiles[i][k].remove = true;
                         tiles[i][k].xIndex = k-1;
+                        moved = true; //Signifies that a tile has been merged
                         tiles[i][k] = null;
                     } //if
                 } //if
             } //for
         } //for
+        return moved;
     } //updateTilesLeft
 
     
@@ -379,8 +428,10 @@ public class Game2048 {
     /**
      * Updates the {@code tiles} 2D array to reflect all the tiles moving as far down as possible.
      * Also updates each tile's {@code remove} and {@code merge} properties where appropriate.
+     * @return true if a tile is moved or merged
      */
-    private void updateTilesDown() {
+    private boolean updateTilesDown() {
+        boolean moved = false;
         for(int j = 0; j < 4; j++) {
             for (int i = 2; i >= 0; i--) {
                 if(tiles[i][j] != null) {
@@ -388,6 +439,7 @@ public class Game2048 {
                     while(k != 3 && tiles[k + 1][j] == null) {
                         tiles[k + 1][j] = tiles[k][j];
                         tiles[k+1][j].yIndex = k+1;
+                        moved = true; //Signifies that a tile has been moved
                         tiles[k][j] = null;
                         k++;
                     } //while
@@ -395,11 +447,13 @@ public class Game2048 {
                         tiles[k+1][j].merge = true;
                         tiles[k][j].remove = true;
                         tiles[k][j].yIndex = k+1;
+                        moved = true; //Signifies that a tile has been merged
                         tiles[k][j] = null;
                     } //if
                 } //if
             } //for
         } //for
+        return moved;
     } //updateTilesDown
     
     /**
@@ -432,8 +486,10 @@ public class Game2048 {
     /**
      * Updates the {@code tiles} 2D array to reflect all the tiles moving as far up as possible.
      * Also updates each tile's {@code remove} and {@code merge} properties where appropriate.
+     * @return true if a tile is moved or merged
      */
-    private void updateTilesUp() {
+    private boolean updateTilesUp() {
+        boolean moved = false;
         for(int j = 0; j < 4; j++) {
             for (int i = 1; i < 4; i++) {
                 if(tiles[i][j] != null) {
@@ -441,6 +497,7 @@ public class Game2048 {
                     while(k != 0 && tiles[k - 1][j] == null) {
                         tiles[k - 1][j] = tiles[k][j];
                         tiles[k-1][j].yIndex = k - 1;
+                        moved = true; //Signifies that a tile has been moved
                         tiles[k][j] = null;
                         k--;
                     } //while
@@ -448,11 +505,13 @@ public class Game2048 {
                         tiles[k-1][j].merge = true;
                         tiles[k][j].remove = true;
                         tiles[k][j].yIndex = k-1;
+                        moved = true; //Signifies that a tile has been merged
                         tiles[k][j] = null;
                     } //if
                 } //if
             } //for
         } //for
+        return moved;
     } //updateTilesUp
 
     /** 
@@ -469,5 +528,38 @@ public class Game2048 {
         t.xIndex = x;
         t.yIndex = y;
     } //setNewTileXY
-                
+
+    /**
+     * Checks to see if tiles in a full board can merge in any direction.
+     * @return false if there are no more possible moves, true otherwise
+     */
+    private boolean canMove() {
+        boolean canMove = false;
+        for(int i = 0; i < 4; i++) {
+            for (int j = 2; j >= 0; j--) { //Checks if moving right is possible
+                if(tiles[i][j] != null && tiles[i][j+1].canMerge(tiles[i][j])) {
+                    canMove = true;
+                } //if
+            } //for
+            for (int k = 1; k < 4; k++) { //Checks if moving left is possible
+                if(tiles[i][k] != null && tiles[i][k-1].canMerge(tiles[i][k])) {
+                    canMove = true;
+                } //if
+            } //for
+        } //for
+        for(int j = 0; j < 4; j++) {
+            for (int i = 2; i >= 0; i--) { //Checks if moving down is possible
+                if(tiles[i][j] != null && tiles[i+1][j].canMerge(tiles[i][j])) {
+                    canMove = true;
+                } //if
+            } //for
+            for (int k = 1; k < 4; k++) { //Checks if moving up is possible
+                if(tiles[k][j] != null && tiles[k-1][j].canMerge(tiles[k][j])) {
+                    canMove = true;
+                } //if
+            } //for
+        } //for
+        return canMove;
+    } //canMove     
+                    
 }

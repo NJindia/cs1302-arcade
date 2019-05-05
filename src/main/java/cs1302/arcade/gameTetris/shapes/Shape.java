@@ -1,21 +1,32 @@
 package cs1302.arcade.gameTetris.shapes;
 import javafx.scene.shape.Rectangle;
-
+import javafx.scene.paint.Color;
 
 /** the tetris pieces
  */
 public abstract class Shape{
     public int angle; //can be 0, 90, 180, or 270
     public int pivotX, pivotY; //XY positions of pivot point
-    public String color;
+    public Color color;
     public Rectangle[][]  board;
     
     
-    public Shape(int x, int y, Rectangle[][] b) {
+    public Shape(int x, int y, Rectangle[][] b, Color c) {
         angle = 0; //Shapes always start with one orientation
         pivotX = x;
         pivotY = y;
         board = b;
+        color = c;
+    }
+
+    public void removeRectangle(int x, int y) {
+        board[y][x] = null;
+    }
+    
+    public void addRectangle(int x, int y) {
+        Rectangle r = new Rectangle();
+        r.setFill(color);
+        board[y][x] = r;
     }
     
     public void rotate90() {

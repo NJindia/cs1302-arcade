@@ -89,7 +89,7 @@ public class ArcadeApp extends Application {
 //            game2.setPadding(new Insets(10, 50, 100, 50));
         b2.setOnAction(e ->{
                 System.out.println("Launching Tetris!");
-                stage.setScene(game1.getGameScene());
+                stage.setScene(game_1.getGameScene());
             });
                              
         Button exit = new Button("Exit");
