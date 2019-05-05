@@ -36,8 +36,7 @@ public class Tile extends ImageView {
      */
     public void setValue(int v) {
         value = v;
-        String file = "file:2048tiles/" + v + ".png";
-        this.setImage(new Image(file));
+        this.setImage(new Image("2048tiles/" + v + ".png"));
     } //setValue
 
     /**

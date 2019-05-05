@@ -1,13 +1,14 @@
 package cs1302.arcade.gameTetris.shapes;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+import javafx.scene.layout.GridPane;
 
 public class Square extends Shape {
     //pivot is 1:
     //10
     //00
-    public Square(int x, int y, Rectangle[][] b) {
-        super(x, y, b, Color.YELLOW);
+    public Square(int x, int y, Rectangle[][] b, GridPane g) {
+        super(x, y, b, g, Color.YELLOW);
         addRectangle(x, y);
         addRectangle(x+1, y);
         addRectangle(x, y+1);

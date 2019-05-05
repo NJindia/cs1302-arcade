@@ -1,6 +1,7 @@
 package cs1302.arcade.gameTetris.shapes;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+import javafx.scene.layout.GridPane;
 
 /** the tetris pieces
  */
@@ -9,24 +10,31 @@ public abstract class Shape{
     public int pivotX, pivotY; //XY positions of pivot point
     public Color color;
     public Rectangle[][]  board;
+    public GridPane grid;
     
-    
-    public Shape(int x, int y, Rectangle[][] b, Color c) {
+    public Shape(int x, int y, Rectangle[][] b, GridPane g, Color c) {
         angle = 0; //Shapes always start with one orientation
         pivotX = x;
         pivotY = y;
         board = b;
         color = c;
+        grid = g;
     }
 
+    private int indexToCoord(int index) {
+        return index * 20;
+    }
+    
     public void removeRectangle(int x, int y) {
+        grid.getChildren().remove(board[y][x]);
         board[y][x] = null;
     }
     
     public void addRectangle(int x, int y) {
-        Rectangle r = new Rectangle();
+        Rectangle r = new Rectangle(30, 30);
         r.setFill(color);
         board[y][x] = r;
+        grid.add(r, x, y);
     }
     
     public void rotate90() {
