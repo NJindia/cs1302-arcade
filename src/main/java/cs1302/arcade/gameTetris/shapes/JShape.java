@@ -3,14 +3,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
 
-public class LShape extends Shape{
+public class JShape extends Shape{
 
-    public LShape(int x, Rectangle[][] b, GridPane g) {
+    public JShape(int x, Rectangle[][] b, GridPane g) {
         super(x, 2, b, g, Color.YELLOW);
         r1 = addRectangle(pivotX, pivotY);
-        r2 = addRectangle(pivotX-1, pivotY);
-        r3 = addRectangle(pivotX-2, pivotY);
-        r4 = addRectangle(pivotX,pivotY-1);
+        r2 = addRectangle(pivotX+1, pivotY);
+        r3 = addRectangle(pivotX-1, pivotY);
+        r4 = addRectangle(pivotX-1,pivotY-1);
         rectangles[0] = r1;
         rectangles[1] = r2;
         rectangles[2] = r3;
