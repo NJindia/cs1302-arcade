@@ -36,8 +36,7 @@ public abstract class Shape{
     }
     
     public void removeRectangle(int x, int y) {
-        grid.getChildren().remove(board[y][x]);
-        board[y][x] = null;
+        grid.getChildren().remove(getFromGrid(x, y));
     }
 
     public boolean moveDown() {
@@ -68,10 +67,50 @@ public abstract class Shape{
         return canMove;
     }
 
-    public void moveLeft() {}
+   
+    public void moveToBottom() {
+        int col, row;
+        for (Rectangle r : rectangles) {
+            if (r != null) {
+                col = GridPane.getColumnIndex(r);
+                row = GridPane.getRowIndex(r);
+                if(row != 19) {
+                    Rectangle next = getFromGrid(col, row + 1);
+                    row++;
+                    while (next == null && row < 19) {
+                        next = getFromGrid(col, row + 1);
+                    }
+                    GridPane.setRowIndex(r, row);
+                }
+            }
+        }
+    }
 
-    public void moveToBottom() {}
+    public void moveLeft() {
+        int col, row;
+        boolean canMove = true;
+        for (Rectangle r : rectangles) {
+            if (r != null) {
+                col = GridPane.getColumnIndex(r);
+                row = GridPane.getRowIndex(r);
+                if(col == 0) { //If a rectangle is at leftmost index
+                    canMove = false;
+                } else {
+                    Rectangle next = getFromGrid(col - 1, row);
+                    if(next != null && next != r1 && next != r2 && next != r3 && next != r4) {
+                        canMove = false;
+                    }
+                }
+            }
+        }
+        if (canMove) {
+            for(Rectangle r : rectangles) {
+                GridPane.setColumnIndex(r, GridPane.getColumnIndex(r) - 1);
+            }
+        }
+    }
 
+    
     public void moveRight() {
         int col, row;
         boolean canMove = true;
