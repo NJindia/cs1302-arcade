@@ -12,7 +12,9 @@ public class TShape extends Shape{
         r2 = addRectangle(pivotX, pivotY - 1);
         r3 = addRectangle(pivotX+1, pivotY);
         r4 = addRectangle(pivotX-1, pivotY);
-
+        //   r2
+        //r4 r1 r3
+        
         rectangles[0] = r1;
         rectangles[1] = r2;
         rectangles[2] = r3;
@@ -20,70 +22,69 @@ public class TShape extends Shape{
     }
 
      public void rotateTo90() {
-
-         System.out.println("90");
-         // r4 = addRectangle(pivotX, pivotY - 1);
-         rectangles[3] = addRectangle(pivotX, pivotY - 1);    
-         removeRectangle(pivotX-1, pivotY);
-
-         rectangles[2] = addRectangle(pivotX, pivotY+1);//r3
-         removeRectangle(pivotX+1, pivotY);
-
-         rectangles[1] = addRectangle(pivotX+1, pivotY);//r2
-
-         //       rectangles[0] = addRectangle(pivotX, pivotY);
-         // removeRectangle(pivotX, pivotY -1);
-
-
-//         removeRectangle(pivotX, pivotY);
-// rectangles[3] = r4;
-         // rectangles[
-
-/*
-         removeRectangle(pivotX, pivotY);
-         removeRectangle(pivotX, pivotY-1);
-         removeRectangle(pivotX+1, pivotY);
-         removeRectangle(pivotX-1, pivotY);   
-*/
-         removeRectangle(r4);
-         r4 = addRectangle(pivotX, pivotY + 1);    
-         rectangles[3] = r4;
-
+         //Rotates to:
+         //r2
+         //r1 r3
+         //r4
+         int x = pivotX;
+         int y = pivotY + 1;
+         Rectangle next = getFromGrid(x, y);
+         if(next == null) {
+             removeRectangle(r4);
+             r4 = addRectangle(x, y);    
+             rectangles[3] = r4;
+             angle += 90;
+         }
      }
     
     public void rotateTo180() {
-        removeRectangle(r2);
-        r2 = addRectangle(pivotX - 1, pivotY);
-        rectangles[1] = r2;
+        //Rotates to:
+        //r2 r1 r3
+        //   r4
+        int x = pivotX - 1;
+        int y = pivotY;
+        if(getFromGrid(x, y) == null) {
+            removeRectangle(r2);
+            r2 = addRectangle(x, y);
+            rectangles[1] = r2;
+            angle += 90;
+        }
     }
     public void rotateTo270() {
-        System.out.println("270");
-        rectangles[3] = addRectangle(pivotX, pivotY+1);
-        //removeRectangle(pivotX+1, pivotY);
-
-        rectangles[2] = addRectangle(pivotX, pivotY-1);
-        //removeRectangle(pivotX-1, pivotY);
-
-        rectangles[1] = addRectangle(pivotX -1, pivotY);
-        //removeRectangle(pivotX, pivotY+1);
-        
-        
-    }    
+        //Rotates to:
+        //   r3
+        //r2 r1
+        //   r4
+        int x = pivotX;
+        int y = pivotY - 1;
+        if(getFromGrid(x, y) == null) {
+            removeRectangle(r3);
+            r3 = addRectangle(x, y);
+            rectangles[2] = r3;
+            angle += 90;
+        }
+    }
     public void rotateTo0() {
-         System.out.println("0");
-         rectangles[3] = addRectangle(pivotX-1, pivotY);
-         //removeRectangle(pivotX, pivotY+1);
-
-         rectangles[2] = addRectangle(pivotX+1, pivotY);
-         //removeRectangle(pivotX, pivotY-1);
-
-         rectangles[1] = addRectangle(pivotX, pivotY-1);
-         //removeRectangle(pivotX -1, pivotY);
-
-         
-
-
-     }
+        //Rotates to:
+        //   r2
+        //r4 r1 r3
+        int x = pivotX + 1;
+        int y = pivotY;
+        if(getFromGrid(x, y) == null) {
+            for (Rectangle r : rectangles) {
+                removeRectangle(r);
+            }
+            r1 = addRectangle(pivotX, pivotY);//pivot
+            r2 = addRectangle(pivotX, pivotY - 1);
+            r3 = addRectangle(pivotX+1, pivotY);
+            r4 = addRectangle(pivotX-1, pivotY);            
+            rectangles[0] = r1;
+            rectangles[1] = r2;
+            rectangles[2] = r3;
+            rectangles[3] = r4;
+            angle = 0;
+        }
+    }
 
     
     

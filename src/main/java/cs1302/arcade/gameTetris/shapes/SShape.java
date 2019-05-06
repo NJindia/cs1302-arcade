@@ -7,7 +7,7 @@ public class SShape extends Shape {
     //pivot is 1:
     //10
     //00
-    public SShape(int x, Rectangle[][] b, GridPane g) {
+    public SShape(int x, Rectangle[][] b, GridPane g) 
         {
             super(x, 2, b, g, Color.YELLOW);
             r1 = addRectangle(pivotX, pivotY);

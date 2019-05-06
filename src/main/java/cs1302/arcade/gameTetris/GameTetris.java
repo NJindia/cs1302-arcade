@@ -103,7 +103,7 @@ public class GameTetris{
         KeyFrame k;
         switch(level) {
         case 1:
-            k = new KeyFrame(Duration.millis(200), handler);
+            k = new KeyFrame(Duration.millis(1000), handler);
             break;
         case 2:
             k = new KeyFrame(Duration.millis(666), handler);

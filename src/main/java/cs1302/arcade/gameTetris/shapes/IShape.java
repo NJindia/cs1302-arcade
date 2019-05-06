@@ -5,7 +5,7 @@ import javafx.scene.layout.GridPane;
 
 public class IShape extends Shape{
 
-     public IShape(int x, Rectangle[][] b, GridPane g) {
+     public IShape(int x, Rectangle[][] b, GridPane g) 
          {
              super(x, 1, b, g, Color.GREEN);
 
