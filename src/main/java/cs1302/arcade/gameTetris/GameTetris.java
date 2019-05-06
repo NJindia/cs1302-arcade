@@ -71,7 +71,7 @@ public class GameTetris{
     }
 
     private void newShape() {
-        Shape s = new Square(0, 0, board, grid);
+        Shape s = new TShape(3, 1, board, grid);
         currShape = s;
         tl.play();
     }
@@ -80,11 +80,13 @@ public class GameTetris{
         return e -> {
             if(gameOver == false){
                 if (e.getCode() == KeyCode.RIGHT) {
+                    System.out.println("right");
                     currShape.moveRight();
                 } else if (e.getCode() == KeyCode.LEFT) {
                     currShape.moveLeft();
                 } else if (e.getCode() == KeyCode.UP) {
                     currShape.rotate();
+                    System.out.println("up");
                 } else if (e.getCode() == KeyCode.DOWN) {
                     currShape.moveToBottom();
                 } //if

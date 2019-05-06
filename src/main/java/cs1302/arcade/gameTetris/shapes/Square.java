@@ -23,8 +23,6 @@ public class Square extends Shape {
     //Square doesn't rotate
     public void rotateTo0() {}
     public void rotateTo90() {} 
-    public void rotateTo180() {} 
+    public void rotateTo180() {}
     public void rotateTo270() {}
-
 }
-
