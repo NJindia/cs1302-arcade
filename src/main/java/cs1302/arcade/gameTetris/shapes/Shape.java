@@ -34,29 +34,14 @@ public abstract class Shape{
         }
         return null;
     }
-    
-    
 
-
-    public void removeRectangle(int x, int y) {
-        grid.getChildren().remove(getFromGrid(x, y));
-
-/*        for(int i = 0; i<4;i++)
-        {
-            System.out.println("x" + rectangles[i].getX());
-            System.out.println("y " + rectangles[i].getY());
-            if(rectangles[i].getX() == x && rectangles[i].getY() == y)
-            {
-                rectangles[i] = null;
-                System.out.println(rectangles[i]);
-            }
-
-*/      
-
-
-
-
+    public boolean isNotR(Rectangle r) {
+        if(r != r1 && r != r2 && r != r3 && r != r4) {
+            return true;
+        }
+        return false;
     }
+    
     public boolean moveDown() {
         int col, row;
         boolean canMove = true;
@@ -71,7 +56,7 @@ public abstract class Shape{
                     canMove = false;
                 } else {
                     Rectangle next = getFromGrid(col, row + 1);
-                    if(next != null && next != r1 && next != r2 && next != r3 && next != r4) {
+                    if(next != null && isNotR(next) == true) {
                         canMove = false;
                     }
                 }
@@ -119,7 +104,7 @@ public abstract class Shape{
                     canMove = false;
                 } else {
                     Rectangle next = getFromGrid(col - 1, row);
-                    if(next != null && next != r1 && next != r2 && next != r3 && next != r4) {
+                    if(next != null && isNotR(next) == true) {
                         canMove = false;
                     }
                 }
@@ -146,7 +131,7 @@ public abstract class Shape{
                     canMove = false;
                 } else {
                     Rectangle next = getFromGrid(col + 1, row);
-                    if(next != null && next != r1 && next != r2 && next != r3 && next != r4) {
+                    if(next != null && isNotR(next) == true) {
                         canMove = false;
                     }
                 }
@@ -164,16 +149,6 @@ public abstract class Shape{
     public Rectangle addRectangle(int x, int y) {
         Rectangle r = new Rectangle(30, 30);
         r.setFill(color);
-        board[y][x] = r;
-/*        for(int i = 0; i< 4; i++)
-        {
-            if(rectangles[i] ==null)
-            {
-                rectangles[i] = r;
-            }
-        }
-*/  
-
         grid.add(r, x, y);
         return r;
     }
@@ -184,33 +159,8 @@ public abstract class Shape{
 
 
     public void rotate() {
-        if(angle == 0)
-        {
-            rotateTo90();
-            angle +=90;
-            return;
-        }
-        if(angle == 90)
-        {
-            rotateTo180();
-            angle +=90;
-            return;
-        }
-        if(angle == 180)
-        {
-            rotateTo270();
-            angle+=90;
-            return;
-        }
-        if(angle == 270)
-        {
-            rotateTo0();        
-            angle = 0;
-            return;
-        }
-        
-/*switch(angle) {
-            case 0:
+        switch(angle) {
+        case 0:
             rotateTo90();
             break;
         case 90:
@@ -223,7 +173,7 @@ public abstract class Shape{
             rotateTo0();
             break;
         }
-            */
+        System.out.println(angle);
     }
     
     public abstract void rotateTo0();

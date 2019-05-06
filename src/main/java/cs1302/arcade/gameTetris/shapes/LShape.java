@@ -5,7 +5,7 @@ import javafx.scene.layout.GridPane;
 
 public class LShape extends Shape{
 
-    public Square(int x, int y, Rectangle[][] b, GridPane g) {
+    public LShape(int x, int y, Rectangle[][] b, GridPane g) {
         super(x, y, b, g, Color.YELLOW);
         r1 = addRectangle(x, y);
         r2 = addRectangle(x+1, y);
