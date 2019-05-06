@@ -98,21 +98,23 @@ public class GameTetris{
                 newShape();
             } //if
         };
+        
+        KeyFrame k;
         switch(level) {
         case 1:
-            KeyFrame keyframe = new KeyFrame(Duration.millis(1000), handler);
+            k = new KeyFrame(Duration.millis(1000), handler);
             break;
         case 2:
-            KeyFrame keyframe = new KeyFrame(Duration.millis(666), handler);
+            k = new KeyFrame(Duration.millis(666), handler);
             break;
         case 3:
-            KeyFrame keyframe = new KeyFrame(Duration.millis(333), handler);
+            k = new KeyFrame(Duration.millis(333), handler);
             break;
         default:
-            KeyFrame keyframe = new KeyFrame(Duration.millis(1000), handler);
+            k = new KeyFrame(Duration.millis(1000), handler);
         }
         tl.setCycleCount(Timeline.INDEFINITE);
-        tl.getKeyFrames().add(keyframe);
+        tl.getKeyFrames().add(k);
     } //setTimeline
 
 

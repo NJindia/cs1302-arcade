@@ -70,6 +70,8 @@ public abstract class Shape{
 
     public void moveLeft() {}
 
+    public void moveToBottom() {}
+
     public void moveRight() {
         int col, row;
         boolean canMove = true;
@@ -103,7 +105,7 @@ public abstract class Shape{
         return r;
     }
     
-    public void rotate90() {
+    public void rotate() {
         switch(angle) {
         case 0:
             rotateTo90();
