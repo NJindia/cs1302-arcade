@@ -61,7 +61,7 @@ public abstract class Shape{
 */      
 
 
-        }
+
 
     }
 
@@ -179,7 +179,7 @@ public abstract class Shape{
         }
 */  
 
-grid.add(r, x, y);
+        grid.add(r, x, y);
         return r;
     }
     

@@ -47,7 +47,7 @@ public class ArcadeApp extends Application {
         b1.setOnAction(e -> {
                 stage.setScene(game2048.getGameScene(this));
             });
-        b1.setMinWidth(150);
+        b1.setMinWidth(175);
         Button b2 = new Button("Tetris Game");
         b2.setMinWidth(150);
         b2.setFont(font1);
@@ -57,7 +57,7 @@ public class ArcadeApp extends Application {
                 stage.setScene(gameTetris.getGameScene());
             });                             
         Button exit = new Button("Exit");
-        exit.setMinWidth(50);
+        exit.setMinWidth(100);
         exit.setStyle("-fx-background-color: Red");
         exit.setOnAction(e -> System.exit(0));
         style.setPadding(new Insets(30, 10, 10, 30));
@@ -67,7 +67,7 @@ public class ArcadeApp extends Application {
         newPane.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
         newPane.setPadding(new Insets(10, 10, 10, 10));  
         newPane.setSpacing(10);
-        Scene scene = new Scene(newPane, 480, 640);
+        Scene scene = new Scene(newPane, 480, 330);
         return scene;
     }
 
