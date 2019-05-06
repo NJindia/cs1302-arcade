@@ -51,8 +51,25 @@ public class TShape extends Shape{
 
      }
     
+    public void rotateTo180() {
+        removeRectangle(r2);
+        r2 = addRectangle(pivotX - 1, pivotY);
+        rectangles[1] = r2;
+    }
+    public void rotateTo270() {
+        System.out.println("270");
+        rectangles[3] = addRectangle(pivotX, pivotY+1);
+        //removeRectangle(pivotX+1, pivotY);
 
-     public void rotateTo0() {
+        rectangles[2] = addRectangle(pivotX, pivotY-1);
+        //removeRectangle(pivotX-1, pivotY);
+
+        rectangles[1] = addRectangle(pivotX -1, pivotY);
+        //removeRectangle(pivotX, pivotY+1);
+        
+        
+    }    
+    public void rotateTo0() {
          System.out.println("0");
          rectangles[3] = addRectangle(pivotX-1, pivotY);
          //removeRectangle(pivotX, pivotY+1);
@@ -67,29 +84,7 @@ public class TShape extends Shape{
 
 
      }
-    public void rotateTo180() {
-        System.out.println("180");
-        rectangles[3] = addRectangle(pivotX+1, pivotY);
-        //removeRectangle(pivotX, pivotY - 1);
-        rectangles[2] = addRectangle(pivotX-1, pivotY);
-        //removeRectangle(pivotX, pivotY+1);
-        rectangles[1] = addRectangle(pivotX, pivotY+1);
-        //removeRectangle(pivotX+1, pivotY);
 
-    }
-    public void rotateTo270() {
-        System.out.println("270");
-        rectangles[3] = addRectangle(pivotX, pivotY+1);
-        //removeRectangle(pivotX+1, pivotY);
-
-        rectangles[2] = addRectangle(pivotX, pivotY-1);
-        //removeRectangle(pivotX-1, pivotY);
-
-        rectangles[1] = addRectangle(pivotX -1, pivotY);
-        //removeRectangle(pivotX, pivotY+1);
-        
-        
-    }
     
     
 }
