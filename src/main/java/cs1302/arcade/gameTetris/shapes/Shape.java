@@ -35,15 +35,8 @@ public abstract class Shape{
         return null;
     }
     
-    public int getX()
-        {
-            return pivotX;
-        }
-    public int getY()
-        {
-            return pivotY;
-        }
     
+
 
     public void removeRectangle(int x, int y) {
         grid.getChildren().remove(getFromGrid(x, y));
@@ -64,7 +57,6 @@ public abstract class Shape{
 
 
     }
-
     public boolean moveDown() {
         int col, row;
         boolean canMove = true;
@@ -89,6 +81,7 @@ public abstract class Shape{
             for(Rectangle r : rectangles) {
                 GridPane.setRowIndex(r, GridPane.getRowIndex(r) + 1);
             }
+            pivotY++;
         } else {
             //Check to see if game over
             //Check to see if row can be cleared
@@ -136,6 +129,7 @@ public abstract class Shape{
             for(Rectangle r : rectangles) {
                 GridPane.setColumnIndex(r, GridPane.getColumnIndex(r) - 1);
             }
+            pivotX--;
         }
     }
 
@@ -162,6 +156,7 @@ public abstract class Shape{
             for(Rectangle r : rectangles) {
                 GridPane.setColumnIndex(r, GridPane.getColumnIndex(r) + 1);
             }
+            pivotX++;
         }
     }
     
@@ -182,7 +177,12 @@ public abstract class Shape{
         grid.add(r, x, y);
         return r;
     }
-    
+
+    public void removeRectangle(Rectangle r) {
+        grid.getChildren().remove(r);
+    }
+
+
     public void rotate() {
         if(angle == 0)
         {
