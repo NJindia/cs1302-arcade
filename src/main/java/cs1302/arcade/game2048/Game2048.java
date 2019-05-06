@@ -75,7 +75,7 @@ public class Game2048 {
         newGame();
 
         vbox = new VBox(scores, buttons, tileGroup);
-        Scene scene = new Scene(vbox, 460, 500);
+        Scene scene = new Scene(vbox, 460, 510);
         tileGroup.setOnKeyPressed(createKeyHandler());
         tileGroup.requestFocus();
         return scene;
