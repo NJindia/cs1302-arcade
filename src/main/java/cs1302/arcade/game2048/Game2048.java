@@ -23,7 +23,7 @@ import cs1302.arcade.ArcadeApp;
 public class Game2048 {
     /** 4x4 array to store tiles and their positions */
     private Tile[][] tiles = new Tile[4][4];
-
+//    ArcadeApp app = new ArcadeApp();
     //Timelines for different movement directions
     private Timeline tlRight = new Timeline();
     private Timeline tlLeft = new Timeline();
@@ -55,6 +55,7 @@ public class Game2048 {
         Button b2 = new Button("Back to Games List") {
                 public void requestFocus() { } //Prevents b2 from taking focus
             };
+        
         b2.setOnAction(e -> mainMenu());
         HBox buttons = new HBox(b, b2);
 
@@ -157,7 +158,10 @@ public class Game2048 {
     /** Changes the scene to that of the main menu. */
     private void mainMenu() {
         ArcadeApp app = new ArcadeApp();
+        app.getStage().setScene(app.getScene());
+//        app.getStage().show();
         app.mainMenu();
+        app.getStage().show();
     } //mainMenu
 
     /** Resets the {@code moved} and {@code merge} property for all tiles on the board. */

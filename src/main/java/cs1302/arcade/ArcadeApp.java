@@ -41,7 +41,7 @@ public class ArcadeApp extends Application {
     Game2048 game = new Game2048();
 
     GameTetris game_1 = new GameTetris();
-    private Stage stage = new Stage();    
+    Stage stage = new Stage();    
     Stage stage1;
     /**
      * Return a mouse event handler that moves to the rectangle to a random
@@ -71,6 +71,22 @@ public class ArcadeApp extends Application {
 	};
     } // createKeyHandler
     Scene scene1;
+
+    public Scene getScene()
+        {
+
+            Scene scene2 = scene1;
+            return scene1;
+        }
+    public Stage getStage()
+        {
+//            Stage stage3 = stage;
+            return stage;
+        }
+    
+
+
+           
     public void mainMenu() {
         Font font = Font.font("Lucida Sans Typewriter", FontWeight.BOLD, 50);
         //      Scene scene1;
@@ -92,6 +108,7 @@ public class ArcadeApp extends Application {
         b2.setOnAction(e ->{
                 System.out.println("Launching Tetris!");
                 stage.setScene(game_1.getGameScene());
+//                stage.show();
             });                             
         Button exit = new Button("Exit");
         exit.setMinWidth(50);
@@ -108,14 +125,11 @@ public class ArcadeApp extends Application {
 //        System.out.println("sup boi" + stage);
 //        stage = new Stage();
         stage.setScene(scene1);
-        stage.show();
+        //stage.show();
     }
 
-    public void  getStage(Stage stage1)
+    public void backtoMain()
         {
-            Stage s = stage1;
-            stage = s;
-            // mainMenu();
             
         }
     
@@ -126,7 +140,7 @@ public class ArcadeApp extends Application {
         this.stage = stage;
         Scene scene = new Scene(group, 480, 640);
         stage.setTitle("cs1302-arcade!");
-        getStage(stage);
+//        getStage(stage);
         mainMenu();
         stage.sizeToScene();
         stage.show();

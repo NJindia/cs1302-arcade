@@ -35,18 +35,44 @@ public abstract class Shape{
         return null;
     }
     
+    public int getX()
+        {
+            return pivotX;
+        }
+    public int getY()
+        {
+            return pivotY;
+        }
+    
+
     public void removeRectangle(int x, int y) {
-        grid.getChildren().remove(board[y][x]);
-        board[y][x] = null;
+
+        grid.getChildren().remove(getFromGrid(x, y));
+
+        for(int i = 0; i<4;i++)
+        {
+            System.out.println("x" + rectangles[i].getX());
+            System.out.println("y " + rectangles[i].getY());
+            if(rectangles[i].getX() == x && rectangles[i].getY() == y)
+            {
+                rectangles[i] = null;
+                System.out.println(rectangles[i]);
+            }
+        }
+
+
     }
 
     public boolean moveDown() {
         int col, row;
         boolean canMove = true;
         for(Rectangle r : rectangles) {
+            // System.out.println("hi " + r);
             if(r != null) {
                 col = GridPane.getColumnIndex(r);
                 row = GridPane.getRowIndex(r);
+//                System.out.println("row " + row);
+                //               System.out.println("col " + col);
                 if(row == 19) { //CHANGE IF MAKING 24 ROWS
                     canMove = false;
                 } else {
@@ -76,6 +102,7 @@ public abstract class Shape{
         int col, row;
         boolean canMove = true;
         for (Rectangle r : rectangles) {
+            System.out.println(r);
             if (r != null) {
                 col = GridPane.getColumnIndex(r);
                 row = GridPane.getRowIndex(r);
@@ -101,13 +128,47 @@ public abstract class Shape{
         Rectangle r = new Rectangle(30, 30);
         r.setFill(color);
         board[y][x] = r;
-        grid.add(r, x, y);
+/*        for(int i = 0; i< 4; i++)
+        {
+            if(rectangles[i] ==null)
+            {
+                rectangles[i] = r;
+            }
+        }
+*/  
+
+grid.add(r, x, y);
         return r;
     }
     
     public void rotate() {
-        switch(angle) {
-        case 0:
+        if(angle == 0)
+        {
+            rotateTo90();
+            angle +=90;
+            return;
+        }
+        if(angle == 90)
+        {
+            rotateTo180();
+            angle +=90;
+            return;
+        }
+        if(angle == 180)
+        {
+            rotateTo270();
+            angle+=90;
+            return;
+        }
+        if(angle == 270)
+        {
+            rotateTo0();        
+            angle = 0;
+            return;
+        }
+        
+/*switch(angle) {
+            case 0:
             rotateTo90();
             break;
         case 90:
@@ -120,6 +181,7 @@ public abstract class Shape{
             rotateTo0();
             break;
         }
+            */
     }
     
     public abstract void rotateTo0();

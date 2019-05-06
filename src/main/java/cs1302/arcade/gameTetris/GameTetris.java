@@ -1,13 +1,4 @@
 package cs1302.arcade.gameTetris;
-
-
-import javafx.util.Duration;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.event.*;
-
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
@@ -23,26 +14,17 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.event.*;
 import cs1302.arcade.gameTetris.shapes.*;
-import cs1302.arcade.gameTetris.*;
+
 public class GameTetris{
-    boolean gameOver =false;
+    
     Scene scene;
     Rectangle[][] board = new Rectangle[24][10];
     GridPane grid = new GridPane();
     private Text score = new Text();
-<<<<<<< HEAD
     Timeline tl = new Timeline();
     Shape currShape;
     private boolean gameOver = false;
     
-=======
-    //Timelines for different movement directions
-    private Timeline tlRight = new Timeline();
-    private Timeline tlLeft = new Timeline();
-    // private Timeline tlUp = new Timeline();
-    private Timeline tlDown = new Timeline();
-    //Rectangles are 20x20px
->>>>>>> some changes
     public Scene getGameScene () {
         //updateScore(0);
         score.setFont(new Font(20));
@@ -89,48 +71,22 @@ public class GameTetris{
     }
 
     private void newShape() {
-<<<<<<< HEAD
-        Shape s = new Square(0, 0, board, grid);
+        Shape s = new TShape(3, 1, board, grid);
         currShape = s;
         tl.play();
-=======
-//        Shape s = new Square(0, 0, board, grid);
-        //      Shape s1 = new Square(5, 0, board, grid);
-        // Shape s2 = new Square(8, 0, board, grid);
-        
-
-
-
->>>>>>> some changes
     }
-    /** Sets each of the 4 timelines to move the tiles at 60fps. */
-    private void setTimelines() {
-        EventHandler<ActionEvent> handlerRight = event -> moveRight();
-        EventHandler<ActionEvent> handlerLeft = event -> moveLeft();
-        EventHandler<ActionEvent> handlerDown = event -> moveDown();
-        //    EventHandler<ActionEvent> handlerUp = event -> moveUp();
 
-        //Calls the respective handlers at 60fps
-        KeyFrame keyframeRight = new KeyFrame(Duration.millis(1000/60), handlerRight);
-        KeyFrame keyframeLeft = new KeyFrame(Duration.millis(1000/60), handlerLeft);
-        // KeyFrame keyframeUp = new KeyFrame(Duration.millis(1000/60), handlerUp);
-        KeyFrame keyframeDown = new KeyFrame(Duration.millis(1000/60), handlerDown);
-
-        tlRight.setCycleCount(Timeline.INDEFINITE);
-        tlLeft.setCycleCount(Timeline.INDEFINITE);
-        // tlUp.setCycleCount(Timeline.INDEFINITE);
-        tlDown.setCycleCount(Timeline.INDEFINITE);
-
-<<<<<<< HEAD
     private EventHandler<? super KeyEvent> createKeyHandler() {
         return e -> {
             if(gameOver == false){
                 if (e.getCode() == KeyCode.RIGHT) {
+                    System.out.println("right");
                     currShape.moveRight();
                 } else if (e.getCode() == KeyCode.LEFT) {
                     currShape.moveLeft();
                 } else if (e.getCode() == KeyCode.UP) {
                     currShape.rotate();
+                    System.out.println("up");
                 } else if (e.getCode() == KeyCode.DOWN) {
                     currShape.moveToBottom();
                 } //if
@@ -162,12 +118,4 @@ public class GameTetris{
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.getKeyFrames().add(k);
     } //setTimeline
-=======
-        tlRight.getKeyFrames().add(keyframeRight);
-        tlLeft.getKeyFrames().add(keyframeLeft);
-        // tlUp.getKeyFrames().add(keyframeUp);
-        tlDown.getKeyFrames().add(keyframeDown);
-    } //setTimelines
-
->>>>>>> some changes
 }
