@@ -66,6 +66,7 @@ public class GameTetris{
         VBox vbox = new VBox(scores, buttons, grid);
         scene = new Scene(vbox);
         newShape();
+        grid.requestFocus();
         return scene;        
     }
 
