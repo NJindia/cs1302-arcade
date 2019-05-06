@@ -35,31 +35,7 @@ public abstract class Shape{
         return null;
     }
     
-    public int getX()
-        {
-            return pivotX;
-        }
-    public int getY()
-        {
-            return pivotY;
-        }
     
-
-    public void removeRectangle(int x, int y) {
-        grid.getChildren().remove(getFromGrid(x, y));
-
-        for(int i = 0; i<4;i++)
-        {
-            System.out.println("x" + rectangles[i].getX());
-            System.out.println("y " + rectangles[i].getY());
-            if(rectangles[i].getX() == x && rectangles[i].getY() == y)
-            {
-                rectangles[i] = null;
-                System.out.println(rectangles[i]);
-            }
-        }
-    }
-
     public boolean moveDown() {
         int col, row;
         boolean canMove = true;
@@ -84,6 +60,7 @@ public abstract class Shape{
             for(Rectangle r : rectangles) {
                 GridPane.setRowIndex(r, GridPane.getRowIndex(r) + 1);
             }
+            pivotY++;
         } else {
             //Check to see if game over
             //Check to see if row can be cleared
@@ -131,6 +108,7 @@ public abstract class Shape{
             for(Rectangle r : rectangles) {
                 GridPane.setColumnIndex(r, GridPane.getColumnIndex(r) - 1);
             }
+            pivotX--;
         }
     }
 
@@ -157,6 +135,7 @@ public abstract class Shape{
             for(Rectangle r : rectangles) {
                 GridPane.setColumnIndex(r, GridPane.getColumnIndex(r) + 1);
             }
+            pivotX++;
         }
     }
     
@@ -164,20 +143,15 @@ public abstract class Shape{
     public Rectangle addRectangle(int x, int y) {
         Rectangle r = new Rectangle(30, 30);
         r.setFill(color);
-        board[y][x] = r;
-/*        for(int i = 0; i< 4; i++)
-        {
-            if(rectangles[i] ==null)
-            {
-                rectangles[i] = r;
-            }
-        }
-*/  
-
-grid.add(r, x, y);
+        grid.add(r, x, y);
         return r;
     }
-    
+
+    public void removeRectangle(Rectangle r) {
+        grid.getChildren().remove(r);
+    }
+
+
     public void rotate() {
         if(angle == 0)
         {

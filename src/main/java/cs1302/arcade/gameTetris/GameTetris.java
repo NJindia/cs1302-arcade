@@ -71,7 +71,7 @@ public class GameTetris{
     }
 
     private void newShape() {
-        Shape s = new TShape(3, 1, board, grid);
+        Shape s = new TShape(3, board, grid);
         currShape = s;
         tl.play();
     }
