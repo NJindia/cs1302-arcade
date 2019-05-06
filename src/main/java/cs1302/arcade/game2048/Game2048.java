@@ -21,6 +21,8 @@ import javafx.scene.control.Alert.AlertType;
 import cs1302.arcade.ArcadeApp;
 
 public class Game2048 {
+    private ArcadeApp app;
+    
     /** 4x4 array to store tiles and their positions */
     private Tile[][] tiles = new Tile[4][4];
 //    ArcadeApp app = new ArcadeApp();
@@ -39,9 +41,11 @@ public class Game2048 {
     
     /**
      * Creates the 2048 game scene.
+     * @param a a reference to the original {@code ArcadeApp}
      * @return the scene for 2048
      */
-    public Scene getGameScene () {
+    public Scene getGameScene (ArcadeApp a) {
+        app = a;
         updateScore(0);
         score.setFont(new Font(20));
         HBox scores = new HBox(score);
@@ -71,7 +75,7 @@ public class Game2048 {
         newGame();
 
         vbox = new VBox(scores, buttons, tileGroup);
-        Scene scene = new Scene(vbox, 460, 640);
+        Scene scene = new Scene(vbox, 460, 500);
         tileGroup.setOnKeyPressed(createKeyHandler());
         tileGroup.requestFocus();
         return scene;
@@ -157,11 +161,7 @@ public class Game2048 {
 
     /** Changes the scene to that of the main menu. */
     private void mainMenu() {
-        ArcadeApp app = new ArcadeApp();
-        app.getStage().setScene(app.getScene());
-//        app.getStage().show();
-        app.mainMenu();
-        app.getStage().show();
+        app.stage.setScene(app.mainMenu());
     } //mainMenu
 
     /** Resets the {@code moved} and {@code merge} property for all tiles on the board. */
