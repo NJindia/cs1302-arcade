@@ -97,8 +97,7 @@ public class GameTetris{
             if(currShape.moveDown() == false) {
                 newShape();
             } //if
-        };
-        
+        };        
         KeyFrame k;
         switch(level) {
         case 1:
@@ -116,6 +115,4 @@ public class GameTetris{
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.getKeyFrames().add(k);
     } //setTimeline
-
-
 }

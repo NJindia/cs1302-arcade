@@ -74,6 +74,7 @@ public abstract class Shape{
 
     public void moveRight() {
         int col, row;
+        System.out.println("right");
         boolean canMove = true;
         for (Rectangle r : rectangles) {
             if (r != null) {
