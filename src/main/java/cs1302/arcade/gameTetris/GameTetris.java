@@ -96,13 +96,14 @@ public class GameTetris{
     private void setTimeline(int level) {
         EventHandler<ActionEvent> handler = e -> {
             if(currShape.moveDown() == false) {
+                clearLines();
                 newShape();
             } //if
         };        
         KeyFrame k;
         switch(level) {
         case 1:
-            k = new KeyFrame(Duration.millis(1000), handler);
+            k = new KeyFrame(Duration.millis(200), handler);
             break;
         case 2:
             k = new KeyFrame(Duration.millis(666), handler);
@@ -116,4 +117,41 @@ public class GameTetris{
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.getKeyFrames().add(k);
     } //setTimeline
+
+    private void clearLines() {
+        int rowsCleared = 0;
+        for(int y = 0; y < 20; y++) {
+            boolean isFull = true;
+            for (int x = 0; x < 10; x++) {
+                if(getFromGrid(x, y) == null) {
+                    isFull = false;
+                } //if
+            } //for
+            if(isFull) {
+                for (int x = 0; x < 10; x++) {
+                    Rectangle rect = getFromGrid(x, y);
+                    grid.getChildren().remove(rect);
+                    Rectangle top = getFromGrid(x, y-1);
+                    if(top != null) {
+                        grid.add(top, x, y);
+                    }
+                }
+                //clear row and add points
+            }
+        }
+    }
+
+    public Rectangle getFromGrid(int col, int row) {
+        for (Node node : grid.getChildren()) {
+            if(node != null && GridPane.getColumnIndex(node)!= null
+               && GridPane.getRowIndex(node) != null) {
+                if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                    return (Rectangle)node;
+                }
+            }
+        }
+        return null;
+    }
+    
+    
 }
