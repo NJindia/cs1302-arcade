@@ -22,7 +22,7 @@ public class TShape extends Shape{
     }
 
      public void rotateTo90() {
-/*         System.out.println("90");
+         System.out.println("90");
          // r4 = addRectangle(pivotX, pivotY - 1);
          rectangles[3] = addRectangle(pivotX, pivotY - 1);    
          removeRectangle(pivotX-1, pivotY);
@@ -32,20 +32,20 @@ public class TShape extends Shape{
 
          rectangles[1] = addRectangle(pivotX+1, pivotY);//r2
 
-         rectangles[0] = addRectangle(pivotX, pivotY);
-         removeRectangle(pivotX, pivotY -1);
+         //       rectangles[0] = addRectangle(pivotX, pivotY);
+         // removeRectangle(pivotX, pivotY -1);
 
 
-         removeRectangle(pivotX, pivotY);
+//         removeRectangle(pivotX, pivotY);
 // rectangles[3] = r4;
          // rectangles[
 
-         */
+/*
          removeRectangle(pivotX, pivotY);
          removeRectangle(pivotX, pivotY-1);
          removeRectangle(pivotX+1, pivotY);
          removeRectangle(pivotX-1, pivotY);   
-
+*/
      }
     
 

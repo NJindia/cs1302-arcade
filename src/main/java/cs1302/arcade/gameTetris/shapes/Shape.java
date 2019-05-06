@@ -49,7 +49,7 @@ public abstract class Shape{
 
         grid.getChildren().remove(getFromGrid(x, y));
 
-        for(int i = 0; i<4;i++)
+/*        for(int i = 0; i<4;i++)
         {
             System.out.println("x" + rectangles[i].getX());
             System.out.println("y " + rectangles[i].getY());
@@ -58,7 +58,7 @@ public abstract class Shape{
                 rectangles[i] = null;
                 System.out.println(rectangles[i]);
             }
-        }
+*/      
 
 
     }
