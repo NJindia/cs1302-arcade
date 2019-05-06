@@ -6,6 +6,13 @@ import javafx.scene.control.Button;
 import java.util.Arrays;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.event.*;
 import cs1302.arcade.gameTetris.shapes.*;
 
 public class GameTetris{
@@ -14,8 +21,10 @@ public class GameTetris{
     Rectangle[][] board = new Rectangle[24][10];
     GridPane grid = new GridPane();
     private Text score = new Text();
-
-    //Rectangles are 20x20px
+    Timeline tl = new Timeline();
+    Shape currShape;
+    private boolean gameOver = false;
+    
     public Scene getGameScene () {
         //updateScore(0);
         score.setFont(new Font(20));
@@ -33,8 +42,13 @@ public class GameTetris{
         //b2.setOnAction(e -> mainMenu());
         HBox buttons = new HBox(b, b2);
 
+        grid.setOnKeyPressed(createKeyHandler());
+        setTimeline(1);
+        
         grid.setPrefSize(300, 600);
         grid.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        
+        //adds cols and rows to grid
         final int numCols = 10;
         final int numRows = 20;
         for (int i = 0; i < numCols; i++) {
@@ -48,6 +62,7 @@ public class GameTetris{
             grid.getRowConstraints().add(rowConst);         
         }
         grid.setGridLinesVisible(true);
+        
         VBox vbox = new VBox(scores, buttons, grid);
         scene = new Scene(vbox);
         newShape();
@@ -56,9 +71,49 @@ public class GameTetris{
 
     private void newShape() {
         Shape s = new Square(0, 0, board, grid);
-        Shape s1 = new Square(5, 0, board, grid);
-        Shape s2 = new Square(8, 0, board, grid);
+        currShape = s;
+        tl.play();
     }
+
+    private EventHandler<? super KeyEvent> createKeyHandler() {
+        return e -> {
+            if(gameOver == false){
+                if (e.getCode() == KeyCode.RIGHT) {
+                    currShape.moveRight();
+                } else if (e.getCode() == KeyCode.LEFT) {
+                    currShape.moveLeft();
+                } else if (e.getCode() == KeyCode.UP) {
+                    currShape.rotate();
+                } else if (e.getCode() == KeyCode.DOWN) {
+                    currShape.moveToBottom();
+                } //if
+            } //if
+        }; //return
+    } //createKeyHandler
+    
+    
+    private void setTimeline(int level) {
+        EventHandler<ActionEvent> handler = e -> {
+            if(currShape.moveDown() == false) {
+                newShape();
+            } //if
+        };
+        switch(level) {
+        case 1:
+            KeyFrame keyframe = new KeyFrame(Duration.millis(1000), handler);
+            break;
+        case 2:
+            KeyFrame keyframe = new KeyFrame(Duration.millis(666), handler);
+            break;
+        case 3:
+            KeyFrame keyframe = new KeyFrame(Duration.millis(333), handler);
+            break;
+        default:
+            KeyFrame keyframe = new KeyFrame(Duration.millis(1000), handler);
+        }
+        tl.setCycleCount(Timeline.INDEFINITE);
+        tl.getKeyFrames().add(keyframe);
+    } //setTimeline
 
 
 }
