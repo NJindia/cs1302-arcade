@@ -19,8 +19,13 @@ public abstract class Shape{
         color = c;
         grid = g;
     }
-    
+    /**
+     * @throws IndexOutOfBoundsException if col or row are out of the grid's index
+     */
     public Rectangle getFromGrid(int col, int row) {
+        if(col < 0 || col > 9 || row < 0 || row > 19) {
+            throw new IndexOutOfBoundsException();
+        }
         for (Node node : grid.getChildren()) {
             if(node != null && GridPane.getColumnIndex(node)!= null
                && GridPane.getRowIndex(node) != null) {
@@ -38,18 +43,27 @@ public abstract class Shape{
         }
         return false;
     }
+
+    public void reassignRectangles() {
+        rectangles[0] = r1;
+        rectangles[1] = r2;
+        rectangles[2] = r3;
+        rectangles[3] = r4;
+    }
+
+    
+    public void moveToBottom() {
+        while(moveDown() == true);
+    }
     
     public boolean moveDown() {
         int col, row;
         boolean canMove = true;
         for(Rectangle r : rectangles) {
-            // System.out.println("hi " + r);
             if(r != null) {
                 col = GridPane.getColumnIndex(r);
                 row = GridPane.getRowIndex(r);
-//                System.out.println("row " + row);
-                //               System.out.println("col " + col);
-                if(row == 19) { //CHANGE IF MAKING 24 ROWS
+                if(row == 19) { 
                     canMove = false;
                 } else {
                     Rectangle next = getFromGrid(col, row + 1);
@@ -72,9 +86,6 @@ public abstract class Shape{
     }
 
    
-    public void moveToBottom() {
-        while(moveDown() == false);
-    }
 
     public void moveLeft() {
         int col, row;
@@ -106,7 +117,6 @@ public abstract class Shape{
         int col, row;
         boolean canMove = true;
         for (Rectangle r : rectangles) {
-            System.out.println(r);
             if (r != null) {
                 col = GridPane.getColumnIndex(r);
                 row = GridPane.getRowIndex(r);
@@ -156,7 +166,6 @@ public abstract class Shape{
             rotateTo0();
             break;
         }
-        System.out.println(angle);
     }
     
     public abstract void rotateTo0();

@@ -14,10 +14,7 @@ public class LShape extends Shape{
         r2 = addRectangle(pivotX + 1, pivotY);
         r3 = addRectangle(pivotX + 1, pivotY - 1);
         r4 = addRectangle(pivotX -1,pivotY);
-        rectangles[0] = r1;
-        rectangles[1] = r2;
-        rectangles[2] = r3;
-        rectangles[3] = r4;
+        reassignRectangles();
     }
 
     /** {@inheritDoc} */
@@ -26,21 +23,21 @@ public class LShape extends Shape{
         //r4
         //r1
         //r2 r3
-        Rectangle nextR4 = getFromGrid(pivotX, pivotY - 1);
-        Rectangle nextR2 = getFromGrid(pivotX, pivotY + 1);
-        Rectangle nextR3 = getFromGrid(pivotX + 1, pivotY + 1);
-        if(nextR4 == null && nextR2 == null && nextR3 == null) {
-            removeRectangle(r4);
-            removeRectangle(r2);
-            removeRectangle(r3);
-            r4 = addRectangle(pivotX, pivotY - 1);
-            r2 = addRectangle(pivotX, pivotY + 1);
-            r3 = addRectangle(pivotX + 1, pivotY + 1);
-            rectangles[3] = r4;
-            rectangles[2] = r3;
-            rectangles[1] = r2;
-            angle = 90;
-        }
+        try {
+            Rectangle nextR4 = getFromGrid(pivotX, pivotY - 1);
+            Rectangle nextR2 = getFromGrid(pivotX, pivotY + 1);
+            Rectangle nextR3 = getFromGrid(pivotX + 1, pivotY + 1);
+            if(nextR4 == null && nextR2 == null && nextR3 == null) {
+                removeRectangle(r4);
+                removeRectangle(r2);
+                removeRectangle(r3);
+                r4 = addRectangle(pivotX, pivotY - 1);
+                r2 = addRectangle(pivotX, pivotY + 1);
+                r3 = addRectangle(pivotX + 1, pivotY + 1);
+                reassignRectangles();
+                angle = 90;
+            }
+        } catch (IndexOutOfBoundsException e) {}
     }
 
     /** {@inheritDoc} */
@@ -48,21 +45,21 @@ public class LShape extends Shape{
         //Rotates to:
         //r2 r1 r4
         //r3
-        Rectangle nextR4 = getFromGrid(pivotX + 1, pivotY);
-        Rectangle nextR2 = getFromGrid(pivotX - 1, pivotY);
-        Rectangle nextR3 = getFromGrid(pivotX - 1, pivotY + 1);
-        if(nextR4 == null && nextR2 == null && nextR3 == null) {
-            removeRectangle(r4);
-            removeRectangle(r2);
-            removeRectangle(r3);
-            r4 = addRectangle(pivotX + 1, pivotY);
-            r2 = addRectangle(pivotX - 1, pivotY);
-            r3 = addRectangle(pivotX - 1, pivotY + 1);
-            rectangles[3] = r4;
-            rectangles[2] = r3;
-            rectangles[1] = r2;
-            angle = 180;
-        }
+        try {
+            Rectangle nextR4 = getFromGrid(pivotX + 1, pivotY);
+            Rectangle nextR2 = getFromGrid(pivotX - 1, pivotY);
+            Rectangle nextR3 = getFromGrid(pivotX - 1, pivotY + 1);
+            if(nextR4 == null && nextR2 == null && nextR3 == null) {
+                removeRectangle(r4);
+                removeRectangle(r2);
+                removeRectangle(r3);
+                r4 = addRectangle(pivotX + 1, pivotY);
+                r2 = addRectangle(pivotX - 1, pivotY);
+                r3 = addRectangle(pivotX - 1, pivotY + 1);
+                reassignRectangles();
+                angle = 180;
+            }
+        } catch (IndexOutOfBoundsException e) {}
     }
 
     /** {@inheritDoc} */
@@ -71,21 +68,21 @@ public class LShape extends Shape{
         //r3 r2
         //   r1
         //   r4
-        Rectangle nextR4 = getFromGrid(pivotX, pivotY + 1);
-        Rectangle nextR2 = getFromGrid(pivotX, pivotY - 1);
-        Rectangle nextR3 = getFromGrid(pivotX - 1, pivotY - 1);
-        if(nextR4 == null && nextR2 == null && nextR3 == null) {
-            removeRectangle(r4);
-            removeRectangle(r2);
-            removeRectangle(r3);
-            r4 = addRectangle(pivotX, pivotY + 1);
-            r2 = addRectangle(pivotX, pivotY - 1);
-            r3 = addRectangle(pivotX - 1, pivotY - 1);
-            rectangles[3] = r4;
-            rectangles[2] = r3;
-            rectangles[1] = r2;
-            angle = 270;
-        }
+        try {
+            Rectangle nextR4 = getFromGrid(pivotX, pivotY + 1);
+            Rectangle nextR2 = getFromGrid(pivotX, pivotY - 1);
+            Rectangle nextR3 = getFromGrid(pivotX - 1, pivotY - 1);
+            if(nextR4 == null && nextR2 == null && nextR3 == null) {
+                removeRectangle(r4);
+                removeRectangle(r2);
+                removeRectangle(r3);
+                r4 = addRectangle(pivotX, pivotY + 1);
+                r2 = addRectangle(pivotX, pivotY - 1);
+                r3 = addRectangle(pivotX - 1, pivotY - 1);
+                reassignRectangles();
+                angle = 270;
+            }
+        } catch (IndexOutOfBoundsException e) {}
     }
 
     
@@ -94,20 +91,20 @@ public class LShape extends Shape{
         //Rotates to:
         //      r3
         //r4 r1 r2
-        Rectangle nextR4 = getFromGrid(pivotX - 1, pivotY);
-        Rectangle nextR2 = getFromGrid(pivotX + 1, pivotY);
-        Rectangle nextR3 = getFromGrid(pivotX + 1, pivotY - 1);
-        if(nextR4 == null && nextR2 == null && nextR3 == null) {
-            removeRectangle(r4);
-            removeRectangle(r2);
-            removeRectangle(r3);
-            r4 = addRectangle(pivotX - 1, pivotY);
-            r2 = addRectangle(pivotX + 1, pivotY);
-            r3 = addRectangle(pivotX + 1, pivotY - 1);
-            rectangles[3] = r4;
-            rectangles[2] = r3;
-            rectangles[1] = r2;
-            angle = 0;
-        }        
+        try {
+            Rectangle nextR4 = getFromGrid(pivotX - 1, pivotY);
+            Rectangle nextR2 = getFromGrid(pivotX + 1, pivotY);
+            Rectangle nextR3 = getFromGrid(pivotX + 1, pivotY - 1);
+            if(nextR4 == null && nextR2 == null && nextR3 == null) {
+                removeRectangle(r4);
+                removeRectangle(r2);
+                removeRectangle(r3);
+                r4 = addRectangle(pivotX - 1, pivotY);
+                r2 = addRectangle(pivotX + 1, pivotY);
+                r3 = addRectangle(pivotX + 1, pivotY - 1);
+                reassignRectangles();
+                angle = 0;
+            }
+        } catch (IndexOutOfBoundsException e) {}
     }
 }
