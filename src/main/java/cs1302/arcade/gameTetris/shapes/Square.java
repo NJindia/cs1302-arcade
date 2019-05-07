@@ -3,23 +3,22 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
 /**
- * Represents the Square type of Shape
+ * Represents a Square Shape in Tetris.
  */
 public class Square extends Shape {
-    //pivot is 1:
-    //10
-    //00
     /**
-     * Sets the appropriate initial values for a square
+     * Sets the properties for a Square Shape.
+     * @param g a reference to the {@code GridPane} storing the {@code Rectangle} objects
      */
     public Square(GridPane g) {
         super(0, g, Color.YELLOW);
-        int x = (int)(Math.random() * 9);
-        pivotX = x;
+        pivotX = (int)(Math.random() * 9); //random int between 0 and 8
+
         r1 = addRectangle(pivotX, pivotY);
         r2 = addRectangle(pivotX+1, pivotY);
         r3 = addRectangle(pivotX, pivotY+1);
         r4 = addRectangle(pivotX+1,pivotY+1);
+        
         reassignRectangles();
     }
 

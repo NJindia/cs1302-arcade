@@ -2,23 +2,25 @@ package cs1302.arcade.gameTetris.shapes;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
+
 /**
- * Represents an L Shape in Tetris
+ * Represents an L Shape in Tetris.
  */
 public class LShape extends Shape{
-
     /**
-     * Sets the properties for an L Shape
+     * Sets the properties for a L Shape.
+     * @param g a reference to the {@code GridPane} storing the {@code Rectangle} objects
      */
     public LShape(GridPane g) {
         super(1, g, Color.ORANGE);
-        pivotX = (int)(Math.random() * 8) + 1;
+        pivotX = (int)(Math.random() * 8) + 1; //random int between 1 and 8
         //      r3
         //r4 r1 r2
         r1 = addRectangle(pivotX, pivotY);
         r2 = addRectangle(pivotX + 1, pivotY);
         r3 = addRectangle(pivotX + 1, pivotY - 1);
-        r4 = addRectangle(pivotX -1,pivotY);
+        r4 = addRectangle(pivotX - 1, pivotY);
+        
         reassignRectangles();
     }
 

@@ -26,7 +26,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.scene.image.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 
 /**
  * Represents the entire application with 2 games: 2048 and Tetris.
@@ -39,38 +41,35 @@ public class ArcadeApp extends Application {
      * @return a {@code Scene} for the main menu
      */
     public Scene mainMenu() {
-        Separator style = new Separator(Orientation.HORIZONTAL);
         Game2048 game2048 = new Game2048();
         GameTetris gameTetris = new GameTetris();
-        Font font = Font.font("Lucida Sans Typewriter", FontWeight.BOLD, 50);
-        Scene scene1;
-        Font font1 = Font.font("Lucida Sans Typewriter", FontWeight.BOLD, 50);
-        Button b1 = new Button("2048 Game");
-        b1.setFont(font);
-        b1.setStyle(" -fx-background-color: Orange");
-        b1.setOnAction(e -> {
-                stage.setScene(game2048.getGameScene(this));
-            });
-        b1.setMinWidth(175);
-        Button b2 = new Button("Tetris Game");
-        b2.setMinWidth(150);
-        b2.setFont(font1);
-        b2.setStyle("-fx-background-color: #00CE52;");
-        b2.setOnAction(e ->{
-                stage.setScene(gameTetris.getGameScene(this));
-            });                             
+
+        Button b1 = new Button();
+        ImageView iv1 = new ImageView(new Image("2048tiles/2048.png"));
+        iv1.setFitWidth(200);
+        iv1.setPreserveRatio(true);
+        b1.setGraphic(iv1);
+        b1.setOnAction(e -> stage.setScene(game2048.getGameScene(this)));
+
+        Button b2 = new Button();
+        ImageView iv2 = new ImageView(new Image("tetris-logo.png"));
+        iv2.setFitWidth(305);
+        iv2.setPreserveRatio(true);
+        b2.setGraphic(iv2);
+        b2.setOnAction(e -> stage.setScene(gameTetris.getGameScene(this)));                 
+
         Button exit = new Button("Exit");
         exit.setMinWidth(100);
         exit.setStyle("-fx-background-color: Red");
         exit.setOnAction(e -> System.exit(0));
-        style.setPadding(new Insets(30, 10, 10, 30));
-        
-        VBox newPane = new VBox(b1, style, b2, exit);
-        BackgroundFill bf = new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY);
+        HBox buttons = new HBox(b1, b2);
+
+        VBox newPane = new VBox(buttons, exit);
+        BackgroundFill bf = new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY);
         newPane.setBackground(new Background(bf));
         newPane.setPadding(new Insets(10, 10, 10, 10));  
         newPane.setSpacing(10);
-        Scene scene = new Scene(newPane, 480, 330);
+        Scene scene = new Scene(newPane, 560, 275);
         return scene;
     }
     

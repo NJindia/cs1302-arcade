@@ -19,15 +19,16 @@ import javafx.scene.image.*;
 import javafx.application.Platform;
 import javafx.scene.control.Alert.AlertType;
 import cs1302.arcade.ArcadeApp;
+
 /**
- * This class represents the 2048 game.
+ * Represents the 2048 game.
  */
 public class Game2048 {
     private ArcadeApp app;
     
     /** 4x4 array to store tiles and their positions */
     private Tile[][] tiles = new Tile[4][4];
-//    ArcadeApp app = new ArcadeApp();
+    
     //Timelines for different movement directions
     private Timeline tlRight = new Timeline();
     private Timeline tlLeft = new Timeline();
@@ -43,8 +44,8 @@ public class Game2048 {
     
     /**
      * Creates the 2048 game scene.
-     * @param a a reference to the original {@code ArcadeApp}
-     * @return the scene for 2048
+     * @param a a reference to the calling {@code ArcadeApp}
+     * @return the {@code Scene} for 2048
      */
     public Scene getGameScene (ArcadeApp a) {
         app = a;
@@ -61,18 +62,17 @@ public class Game2048 {
         Button b2 = new Button("Back to Games List") {
                 public void requestFocus() { } //Prevents b2 from taking focus
             };
-        
         b2.setOnAction(e -> mainMenu());
         HBox buttons = new HBox(b, b2);
 
         //Sets size and background of tileGroup
         BackgroundSize size = new BackgroundSize(460, 460, false, false, false, false);
-        Image image = new Image("file:src/main/resources/TileBackground.png");
+        Image image = new Image("TileBackground.png");
         BackgroundImage background = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,
                                                          BackgroundRepeat.NO_REPEAT, null, size);
         tileGroup.setBackground(new Background(background));
         tileGroup.setPrefSize(460, 460);
-        
+
         setTimelines();
         newGame();
 
@@ -161,7 +161,7 @@ public class Game2048 {
         addNewTile();
     } //newGame
 
-    /** Changes the scene to that of the main menu. */
+    /** Changes the scene to the main menu scene. */
     private void mainMenu() {
         app.stage.setScene(app.mainMenu());
     } //mainMenu
@@ -271,7 +271,7 @@ public class Game2048 {
     } //merge
 
     /** 
-     * Adds the specified number of points to {@code score}.
+     * Adds the specified number of points to {@code points} and updates the {@code Score} text..
      * @param points the specified number of points to add to the score, a value of 0
      * will reset the score and a value of 2048 will display a winner message
      */
@@ -522,8 +522,8 @@ public class Game2048 {
 
     /** 
      * Sets a specified Tile's X and Y coordinates. Should only be called on freshly made Tiles.
-     * @param x the specified x coordinate to set {@code t} to
-     * @param y the specified y coordinate to set {@code t} to
+     * @param x the specified x coordinate to set the specified {@code Tile} to
+     * @param y the specified y coordinate to set the specified {@code Tile} to
      * @param t the specified Tile to set the x and y coordinates of
      */
     private void setNewTileXY(int x, int y, Tile t) {

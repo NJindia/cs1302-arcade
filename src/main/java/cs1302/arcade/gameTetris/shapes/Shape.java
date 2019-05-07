@@ -3,7 +3,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
 import javafx.scene.Node;
-/** the tetris pieces
+
+/** 
+ * Represents an abstract class for all {@code Shape} objects.
  */
 public abstract class Shape{
     public int angle; //can be 0, 90, 180, or 270
@@ -14,8 +16,10 @@ public abstract class Shape{
     public Rectangle[] rectangles = new Rectangle[4];
 
     /**
-     * Constructor that sets values
-     * @param Sets the initial y value, grid, and color
+     * Initializes values for {@code Shape} objects.
+     * @param y the y value to set {@code pivotY} to
+     * @param g the {@code GridPane} that stores the {@code Rectangle} objects
+     * @param c the desired {@code Color} for the shape
      */
     public Shape(int y, GridPane g, Color c) {
         angle = 0; //Shapes always start with one orientation
@@ -23,11 +27,13 @@ public abstract class Shape{
         color = c;
         grid = g;
     }
+    
     /**
-     * Returns a rectangle object at a certain column and row index
-     * @throws IndexOutOfBoundsException if col or row are out of the grid's index
-     * @param column and row
-     * @return rectangle object at column and row
+     * Returns a {@code Rectangle} object at a specified column and row index in {@code grid}.
+     * @throws IndexOutOfBoundsException if col or row are out of grid's possible indexes
+     * @param col the specified column of {@code grid}
+     * @param row the specified row of {@code grid}
+     * @return the {@code Rectangle} object at the specified column and row, null if none exists
      */
     public Rectangle getFromGrid(int col, int row) {
         if(col < 0 || col > 9 || row < 0 || row > 19) {
@@ -45,9 +51,9 @@ public abstract class Shape{
     }
 
     /**
-     * Checks to see if object matches 
-     * @param Rectangle object
-     * @return true or false
+     * Checks to see if the specified {@code Rectangle} is r1, r2, r3, or r4. 
+     * @param r the specified {@code Rectangle}
+     * @return true if the specified {@code Rectangle} is not r1, r2, r3, or r4, false otherwise
      */
     public boolean isNotR(Rectangle r) {
         if(r != r1 && r != r2 && r != r3 && r != r4) {
@@ -57,7 +63,7 @@ public abstract class Shape{
     }
 
     /**
-     * Sets rectangle values
+     * Reassigns r1, r2, r3, and r4 to their respective positions in the rectangles array.
      */
     public void reassignRectangles() {
         rectangles[0] = r1;
@@ -67,15 +73,15 @@ public abstract class Shape{
     }
 
     /**
-     * Moves block completely to the bottom of the grid or until it hits a shape.
+     * Instantly moves the shape as far down as possible.
      */
     public void moveToBottom() {
         while(moveDown() == true);
     }
 
     /**
-     * Moves the shape down
-     * @return true or false if shape can move down
+     * Moves the shape down by 1 row.
+     * @return true if the shape can move down, false otherwise
      */
     public boolean moveDown() {
         int col, row;
@@ -99,16 +105,13 @@ public abstract class Shape{
                 GridPane.setRowIndex(r, GridPane.getRowIndex(r) + 1);
             }
             pivotY++;
-        } else {
-            //Check to see if game over
-            //Check to see if row can be cleared
         }
         return canMove;
     }
 
    
     /**
-     * Moves the shape left
+     * Moves the shape left by 1 column.
      */
     public void moveLeft() {
         int col, row;
@@ -136,7 +139,7 @@ public abstract class Shape{
     }
 
     /**
-     * Moves the shape right
+     * Moves the shape right by 1 column.
      */
     public void moveRight() {
         int col, row;
@@ -164,26 +167,28 @@ public abstract class Shape{
     }
     
     /** 
-     * Adds a rectangle object at a particular height and length
-     * @param x and y directions
-     * @return Rectangle object added
+     * Adds a {@code Rectangle} at the specified row and column of {@code grid}.
+     * @param col the specified column to add the {@code Rectangle} to
+     * @param row the specified row to add the {@code Rectangle} to
+     * @return the {@code Rectangle} that was added
      */
-    public Rectangle addRectangle(int x, int y) {
+    public Rectangle addRectangle(int col, int row) {
         Rectangle r = new Rectangle(30, 30);
         r.setFill(color);
-        grid.add(r, x, y);
+        grid.add(r, col, row);
         return r;
     }
 
     /**
-     * Removes Rectangle object 
+     * Removes a specified {@code Rectangle} from {@code grid}.
+     * @param r the {@code Rectangle} that is to be removed
      */
     public void removeRectangle(Rectangle r) {
         grid.getChildren().remove(r);
     }
 
     /**
-     * Rotates object at a specific angle
+     * Calls the appropriate rotate methods depending on the shape's current angle.
      */
     public void rotate() {
         switch(angle) {
@@ -203,22 +208,22 @@ public abstract class Shape{
     }
 
     /**
-     * Rotates a Shape from 270 degrees back to the initial 0 degrees
+     * Rotates the Shape from 270 degrees back to the initial 0 degrees.
      */
     public abstract void rotateTo0();
 
     /**
-     * Rotates a Shape from 0 to 90 degrees.
+     * Rotates the Shape from 0 to 90 degrees.
      */
     public abstract void rotateTo90();
 
     /**
-     * Rotates a Shape from 90 to 180 degrees.
+     * Rotates the Shape from 90 to 180 degrees.
      */
     public abstract void rotateTo180();
 
     /**
-     * Rotates a Shape from 180 to 270 degrees.
+     * Rotates the Shape from 180 to 270 degrees.
      */
     public abstract void rotateTo270();
 }

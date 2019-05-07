@@ -4,16 +4,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
 
 /**
- * Represents an I shape in Tetris
+ * Represents an I shape in Tetris.
  */
 public class IShape extends Shape{
 
     /**
-     * Sets the properties for an I Shape
+     * Sets the properties for an I Shape.
+     * @param g a reference to the {@code GridPane} storing the {@code Rectangle} objects
      */
     public IShape(GridPane g) {
         super(0, g, Color.DEEPSKYBLUE);
-        pivotX = (int)(Math.random() * 7);
+        pivotX = (int)(Math.random() * 7); //Random int between 0 and 6
 
         //r1 r2 r3 r4
         r1 = addRectangle(pivotX, pivotY); //pivot

@@ -2,14 +2,15 @@ package cs1302.arcade.gameTetris.shapes;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
-import javafx.scene.Node;
+
 /**
- * Represents a Z shape in Tetris
+ * Represents a Z shape in Tetris.
  */
 public class ZShape extends Shape{
 
     /**
-     * Sets the properties for a Z shape
+     * Sets the properties for a Z shape.
+     * @param g a reference to the {@code GridPane} storing the {@code Rectangle} objects
      */
     public ZShape(GridPane g) {
         super(1, g, Color.RED);

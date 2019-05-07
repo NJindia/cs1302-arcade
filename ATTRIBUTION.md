@@ -8,3 +8,9 @@ authored by members of your project team.
 * nazywam. "2048 Tiles" November 15, 2014
 * https://opengameart.org/content/2048-tiles
 * Creative Commons CC0 1.0 Universal (CC0 1.0)
+
+## Tetris Logo
+* `src/main/resources/tetris-logo.png`
+* Roger Dean. "Tetris Logo"
+* https://tetris.com/brand-assets
+* Attribution-NoDerivs 2.0 Generic (CC BY-ND 2.0)

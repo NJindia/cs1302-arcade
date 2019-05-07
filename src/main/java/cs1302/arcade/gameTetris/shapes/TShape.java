@@ -5,16 +5,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.Node;
 
 /**
- * Represents a T shape in Tetris
+ * Represents a T shape in Tetris.
  */
 public class TShape extends Shape{
     
     /**
-     * Sets the properties for a T Shape object
+     * Sets the properties for a T Shape object.
+     * @param g a reference to the {@code GridPane} storing the {@code Rectangle} objects
      */
     public TShape(GridPane g) {
         super(1, g, Color.PURPLE);
-        pivotX = (int)(Math.random() * 8) + 1;
+        pivotX = (int)(Math.random() * 8) + 1; //random int between 1 and 8
         
         //   r2
         //r4 r1 r3

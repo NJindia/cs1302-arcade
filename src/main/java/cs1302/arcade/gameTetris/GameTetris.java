@@ -12,9 +12,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
+import javafx.application.Platform;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.*;
 import javafx.event.*;
 import cs1302.arcade.gameTetris.shapes.*;
 import cs1302.arcade.ArcadeApp;
+
 /**
  * This class represents the Tetris game.           
  */
@@ -32,7 +36,7 @@ public class GameTetris{
     /**
      * Creates the Tetris game scene.
      * @param a a reference to the original {@code ArcadeApp}
-     * @return the scene for 2048
+     * @return the scene for Tetris
      */
     public Scene getGameScene(ArcadeApp a) {
         app = a;
@@ -64,8 +68,9 @@ public class GameTetris{
     }
 
     /**
-     * Sets the amount of points per lines completed
-     * @param lines the number of lines completed
+     * Adds points based on the number of lines cleared and updates {@code score} 
+     * and {@code level}.
+     * @param lines the number of lines cleared
      */
     private void addPoints(int lines) {
          if(lines == 1)
@@ -89,7 +94,7 @@ public class GameTetris{
     }
 
     /**
-     * Updates the difficulty level of the game
+     * Updates the difficulty level of the game based on the value of {@code level}.
      */
     private void updateLevel() {
         if(points >= 200) {
@@ -105,7 +110,7 @@ public class GameTetris{
 
 
     /**
-     * Updates the score of the game
+     * Updates the {@code score}.
      */
     private void updateScore() {
         String text = "Score: " + points;
@@ -113,16 +118,19 @@ public class GameTetris{
     }
     
     /**
-     * Creates a new game
+     * Clears the board of all rectangles, resets {@code score} and {@code level} and 
+     * restarts the game.
      */
     private void newGame(){
         for(int row = 0; row<20; row++)
         {
             for(int col = 0; col<10; col++)
             {
-                if(getFromGrid(col, row) != null)
-                {
-                    grid.getChildren().remove(getFromGrid(col, row)); //removing existing shapes
+                for(int i = 0; i < 2; i++) { //Clears 2x for good measure
+                    if(getFromGrid(col, row) != null)
+                    {
+                        grid.getChildren().remove(getFromGrid(col, row)); //removing existing shapes
+                    }
                 }
             }
         }
@@ -137,7 +145,7 @@ public class GameTetris{
     }
 
     /**
-     * Creates a new grid
+     * Creates a new formatted grid.
      */
     private void newGrid(){
         grid.setPrefSize(300, 600);
@@ -159,9 +167,8 @@ public class GameTetris{
         grid.setGridLinesVisible(true);
     }
 
-
     /**
-     * Creates a new shape randomnly
+     * Creates a new shape randomly.
      */
     private void newShape() {
         String[] shapes = {"Square", "L", "J", "S", "Z", "I", "T"};
@@ -216,14 +223,18 @@ public class GameTetris{
     } //createKeyHandler
     
     /**
-     * Sets the correct timeline according to the level of difficulty
+     * Sets the correct timeline according to the specified level.
+     * @param level the specified level of difficulty, can be 1, 2, or 3
      */
     private void setTimeline(int level) {
         tl.stop();
         EventHandler<ActionEvent> handler = e -> {
             if(currShape.moveDown() == false) {
                 clearLines();
-                newShape();
+                checkGameOver();
+                if(gameOver == false) {
+                    newShape();
+                } //if
             } //if
         };        
         KeyFrame k;
@@ -246,7 +257,27 @@ public class GameTetris{
     } //setTimeline
 
     /**
-     * Clears the row of completed shapes and brings down the row above
+     * Checks to see if a shape stopped on the top row. Ends the game and informs the
+     * user if so.
+     */
+    private void checkGameOver() {
+        for(int col = 0; col < 10; col++) {
+            if(getFromGrid(col, 0) != null) {
+                tl.stop();
+                gameOver = true;
+                Alert alert = new Alert(AlertType.INFORMATION,
+                                        "GAME OVER. Press New Game to restart.\n"  +
+                                        "Final score: " + points);
+                Runnable r=() -> alert.showAndWait().filter(response->response==ButtonType.OK);
+                Platform.runLater(r);
+                return;
+            }
+        }
+    }
+
+    
+    /**
+     * Clears any full rows and brings down the rows above.
      */
     private void clearLines() {
         int rowsCleared = 0;
@@ -273,15 +304,17 @@ public class GameTetris{
         }
         addPoints(rowsCleared);
     }
+    
     /** Changes the scene to that of the main menu. */
     private void mainMenu() {
         app.stage.setScene(app.mainMenu());
     } //mainMenu
 
     /**
-     * Returns the rectangle object from a particular column and row
-     * @param column and row to enter
-     * @return Rectangle object
+     * Returns the {@code Rectangle} object at the specified column and row.
+     * @param col the specified column
+     * @param row the specified row
+     * @return the {@code Rectangle} at the specified column and row, or null if none exists
      */
     public Rectangle getFromGrid(int col, int row) {
         for (Node node : grid.getChildren()) {

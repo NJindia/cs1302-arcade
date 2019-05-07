@@ -2,17 +2,20 @@ package cs1302.arcade.gameTetris.shapes;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
+
 /**
- * Represents the S shape in Tetris
+ * Represents a S shape for Tetris.
  */
 public class SShape extends Shape {
 
     /**
-     * Sets the appropriate properties for an S Shape.
+     * Sets the appropriate properties for a S Shape.
+     * @param g a reference to the {@code GridPane} storing the {@code Rectangle} objects
      */
     public SShape(GridPane g)  {
         super(1, g, Color.GREEN);
-        pivotX = (int)(Math.random() * 8) + 1;
+        pivotX = (int)(Math.random() * 8) + 1; //random int between 1 and 8
+
         //   r2 r3
         //r4 r1
         r1 = addRectangle(pivotX, pivotY); //pivot
@@ -102,5 +105,3 @@ public class SShape extends Shape {
         } catch (IndexOutOfBoundsException e) {}
     }
 }
-
-    
