@@ -22,6 +22,7 @@ that the Markdown is transformed into nice looking HTML.
 
 3. **PROB:** We had a problem where we could move tiles while a previous move was still in process, we fixed it by using 4 different timelines for each direction instead of the suggested 1.
 
+    
 ## TUES 2019-04-30 @ 11:55 PM EST
 
 1. **DONE:** Actually finished movement, merging, and collisions for 2048 games (no bugs). Started making skeleton code for Tetris shapes.
@@ -29,3 +30,12 @@ that the Markdown is transformed into nice looking HTML.
 2. **TODO:** Tetris Game, 2048 score keeping, 2048 new game button.
 
 3. **PROB:** When buttons are on the scene, using the arrow keys can move focus to the buttons, making moving the tiles on the game board impossible, as it does not recognize that focus belongs to the Pane holding the tiles.
+
+
+## TUES 2019-05-07 @ 01:00 PM EST
+
+1. **DONE:** Finished everything: 2048, Tetris, javadoc, etc.
+
+2. **TODO:** N/A
+
+3. **PROB:** We had a problem where the clearLines method would not correctly pull down rows after clearing a row, but we managed to figure it out. Apparently GridPane doesn't like it when a null object is assigned to a grid position.
