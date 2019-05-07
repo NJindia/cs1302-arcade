@@ -211,23 +211,18 @@ public class GameTetris{
                 for (int x = 0; x < 10; x++) {
                     Rectangle rect = getFromGrid(x, y);
                     grid.getChildren().remove(rect);
-                    Rectangle top = getFromGrid(x, y-1);
-                    if(top != null) {
-                        
-//                        System.out.println("yo " + top);
-//       grid.addRow(y, top);
-                        // grid.getChildren().remove( x, y-1);
-                        //grid.add(top, x, y);
-                        //          grid.setRowIndex(top, x);
+                    for (int k = y; k > 0; k--) {
+                        Rectangle top = getFromGrid(x, k - 1);
+                        if(top != null) {
+                            GridPane.setRowIndex(top, k);
+                        }
                     }
-                    
                 }
-                //clear row and add points
             }
         }
         addPoints(rowsCleared);
     }
-     /** Changes the scene to that of the main menu. */
+    /** Changes the scene to that of the main menu. */
     private void mainMenu() {
         app.stage.setScene(app.mainMenu());
     } //mainMenu
