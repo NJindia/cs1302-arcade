@@ -7,9 +7,10 @@ public class SShape extends Shape {
     //pivot is 1:
     //10
     //00
-    public SShape(int x, Rectangle[][] b, GridPane g) 
+    public SShape(GridPane g) 
         {
-            super(x, 2, b, g, Color.YELLOW);
+            super(2, g, Color.YELLOW);
+            pivotX = 0;
             r1 = addRectangle(pivotX, pivotY);
             r2 = addRectangle(pivotX, pivotY-1);
             r3 = addRectangle(pivotX+1, pivotY-1);

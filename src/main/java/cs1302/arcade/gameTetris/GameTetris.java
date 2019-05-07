@@ -74,7 +74,23 @@ public class GameTetris{
     }
 
     private void newShape() {
-        Shape s = new TShape(3, board, grid);
+        String[] shapes = {"Square", "L", "J", "S", "Z", "I", "T"};
+        String shape = shapes[(int)(Math.random() * 7)];
+        Shape s;
+        switch(shape) {
+        case "Square":
+            s = new Square(grid);
+            break;
+        case "L":
+            s = new LShape(grid);
+            break;
+        case "T":
+            s = new TShape(grid);
+            break;
+        default:
+            s = new LShape(grid);
+            break;
+        }
         currShape = s;
         tl.play();
     }
