@@ -87,8 +87,20 @@ public class GameTetris{
         case "T":
             s = new TShape(grid);
             break;
+        case "J":
+            s = new JShape(grid);
+            break;
+        case "Z":
+            s = new ZShape(grid);
+            break;
+        case "S":
+            s = new SShape(grid);
+            break;
+        case "I":
+            s = new IShape(grid);
+            break;
         default:
-            s = new LShape(grid);
+            s = new Square(grid);
             break;
         }
         currShape = s;
@@ -110,8 +122,7 @@ public class GameTetris{
             } //if
         }; //return
     } //createKeyHandler
-    
-    
+
     private void setTimeline(int level) {
         EventHandler<ActionEvent> handler = e -> {
             if(currShape.moveDown() == false) {
@@ -150,9 +161,6 @@ public class GameTetris{
                 for (int x = 0; x < 10; x++) {
                     Rectangle rect = getFromGrid(x, y);
                     grid.getChildren().remove(rect);
-
-                    System.out.println("hiiii" + x);
-                    System.out.println("y " + y);
                     Rectangle top = getFromGrid(x, y-1);
                     if(top != null) {
                         // grid.getChildren().remove( x, y-1);
