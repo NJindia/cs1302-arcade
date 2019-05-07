@@ -122,7 +122,7 @@ public class GameTetris{
             {
                 if(getFromGrid(col, row) != null)
                 {
-                    grid.getChildren().remove(getFromGrid(col, row));
+                    grid.getChildren().remove(getFromGrid(col, row)); //removing existing shapes
                 }
             }
         }
@@ -148,7 +148,7 @@ public class GameTetris{
         final int numRows = 20;
         for (int i = 0; i < numCols; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPercentWidth(100.0 / numCols);
+            colConst.setPercentWidth(100.0 / numCols);  
             grid.getColumnConstraints().add(colConst);
         }
         for (int i = 0; i < numRows; i++) {
@@ -165,7 +165,7 @@ public class GameTetris{
      */
     private void newShape() {
         String[] shapes = {"Square", "L", "J", "S", "Z", "I", "T"};
-        String shape = shapes[(int)(Math.random() * 7)];
+        String shape = shapes[(int)(Math.random() * 7)];//randomnly picks shape
         switch(shape) {
         case "Square":
             currShape = new Square(grid);
@@ -258,7 +258,7 @@ public class GameTetris{
                 } //if
             } //for
             if(isFull) {
-                rowsCleared++;
+                rowsCleared++; //increases rows cleared
                 for (int x = 0; x < 10; x++) {
                     Rectangle rect = getFromGrid(x, y);
                     grid.getChildren().remove(rect);
