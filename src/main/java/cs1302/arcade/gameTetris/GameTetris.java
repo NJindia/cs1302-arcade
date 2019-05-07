@@ -27,14 +27,10 @@ public class GameTetris{
     Shape currShape;
     private boolean gameOver = false;
     private int points = 0;
-    int lines = 0;
-    int level = 1;
-
-    
+       
     public Scene getGameScene(ArcadeApp a) {
-        //updateScore(0);
         app = a;
-        updateScore(0);
+        updateScore();
         score.setFont(new Font(20));
         HBox scores = new HBox(score);
         scores.setSpacing(30);
@@ -50,68 +46,42 @@ public class GameTetris{
         b2.setOnAction(e -> mainMenu());
         HBox buttons = new HBox(b, b2);
 
-/*        grid.setOnKeyPressed(createKeyHandler());
-        setTimeline(1);
-        
-        grid.setPrefSize(300, 600);
-        grid.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-        
-        //adds cols and rows to grid
-        final int numCols = 10;
-        final int numRows = 20;
-        for (int i = 0; i < numCols; i++) {
-            ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPercentWidth(100.0 / numCols);
-            grid.getColumnConstraints().add(colConst);
-        }
-        for (int i = 0; i < numRows; i++) {
-            RowConstraints rowConst = new RowConstraints();
-            rowConst.setPercentHeight(100.0 / numRows);
-            grid.getRowConstraints().add(rowConst);         
-        }
-        grid.setGridLinesVisible(true);
-*/      newGrid();   
         VBox vbox = new VBox(scores, buttons, grid);
         scene = new Scene(vbox);
-        newShape();
         grid.requestFocus();
+
+        newGame();        
+        grid.setOnKeyPressed(createKeyHandler());
+
         return scene;        
     }
 
-    private void setLinesCleared(int x)
-        {
-            System.out.println("hi12345");
-            lines=x;
-        }
-
-    private void updateScore(int lines) {
-        /*if(points == 0) {
-             this.points = 0;
-         }
-        */
+    private void addPoints(int lines) {
          if(lines == 1)
          {
-             this.points += 40;
+             points += 40;
          }
          else if(lines == 2)
          {
-             this.points += 100;
+             points += 100;
          }
          else if(lines==3)
          {
-             this.points += 300;
+             points += 300;
          }
          else if(lines == 4)
          {
-             this.points +=1200;
+             points +=1200;
          }
-         
-         String text = "Score: " + this.points;
-         score.setText(text);
+         updateScore();
+    }
+
+    private void updateScore() {
+        String text = "Score: " + points;
+        score.setText(text);
     }
     
     private void newGame(){
-//            grid.getChildren().clear();
         for(int row = 0; row<20; row++)
         {
             for(int col = 0; col<10; col++)
@@ -120,20 +90,18 @@ public class GameTetris{
                 {
                     grid.getChildren().remove(getFromGrid(col, row));
                 }
-                
             }
         }
-        
+        newGrid();
         gameOver = false;
+        points = 0;
+        updateScore();
         newShape();
-        // newGrid();
-        //grid.setGridLinesVisible(true);
+        setTimeline(1);
+        tl.play();
     }
 
     private void newGrid(){
-        grid.setOnKeyPressed(createKeyHandler());
-        setTimeline(1);
-        
         grid.setPrefSize(300, 600);
         grid.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
         
@@ -158,35 +126,32 @@ public class GameTetris{
     private void newShape() {
         String[] shapes = {"Square", "L", "J", "S", "Z", "I", "T"};
         String shape = shapes[(int)(Math.random() * 7)];
-        Shape s;
         switch(shape) {
         case "Square":
-            s = new Square(grid);
+            currShape = new Square(grid);
             break;
         case "L":
-            s = new LShape(grid);
+            currShape = new LShape(grid);
             break;
         case "T":
-            s = new TShape(grid);
+            currShape = new TShape(grid);
             break;
         case "J":
-            s = new JShape(grid);
+            currShape = new JShape(grid);
             break;
         case "Z":
-            s = new ZShape(grid);
+            currShape = new ZShape(grid);
             break;
         case "S":
-            s = new SShape(grid);
+            currShape = new SShape(grid);
             break;
         case "I":
-            s = new IShape(grid);
+            currShape = new IShape(grid);
             break;
         default:
-            s = new Square(grid);
+            currShape = new Square(grid);
             break;
       }
-        currShape = s;
-        tl.play();
     }
 
     private EventHandler<? super KeyEvent> createKeyHandler() {
@@ -206,6 +171,7 @@ public class GameTetris{
     } //createKeyHandler
 
     private void setTimeline(int level) {
+        tl.stop();
         EventHandler<ActionEvent> handler = e -> {
             if(currShape.moveDown() == false) {
                 clearLines();
@@ -226,8 +192,9 @@ public class GameTetris{
         default:
             k = new KeyFrame(Duration.millis(1000), handler);
         }
-        tl.setCycleCount(Timeline.INDEFINITE);
+        tl.getKeyFrames().clear();
         tl.getKeyFrames().add(k);
+        tl.setCycleCount(Timeline.INDEFINITE);
     } //setTimeline
 
     private void clearLines() {
@@ -258,8 +225,7 @@ public class GameTetris{
                 //clear row and add points
             }
         }
-        setLinesCleared(rowsCleared);
-        updateScore(rowsCleared);
+        addPoints(rowsCleared);
     }
      /** Changes the scene to that of the main menu. */
     private void mainMenu() {

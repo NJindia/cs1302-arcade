@@ -6,7 +6,7 @@ import javafx.scene.layout.GridPane;
 public class JShape extends Shape {
 
     public JShape(GridPane g) {
-        super(2, g, Color.BLUE);
+        super(1, g, Color.BLUE);
         pivotX = (int)(Math.random() * 8) + 1;
         //r3
         //r2 r1 r4
