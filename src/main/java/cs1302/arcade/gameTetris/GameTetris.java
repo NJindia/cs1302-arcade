@@ -111,7 +111,7 @@ public class GameTetris{
     }
     
     private void newGame(){
-        //    grid.getChildren().clear();
+//            grid.getChildren().clear();
         for(int row = 0; row<20; row++)
         {
             for(int col = 0; col<10; col++)
@@ -120,12 +120,13 @@ public class GameTetris{
                 {
                     grid.getChildren().remove(getFromGrid(col, row));
                 }
-        
+                
             }
         }
+        
         gameOver = false;
         newShape();
-        newGrid();
+        // newGrid();
         //grid.setGridLinesVisible(true);
     }
 

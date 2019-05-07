@@ -85,7 +85,7 @@ public class TShape extends Shape{
         int x = pivotX + 1;
         int y = pivotY;
         try {
-            Rectange next = getFromGrid(x, y);
+            Rectangle next = getFromGrid(x, y);
             if(next == null) {
                 for (Rectangle r : rectangles) {
                     removeRectangle(r);
