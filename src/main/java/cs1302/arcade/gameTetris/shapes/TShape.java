@@ -3,9 +3,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
 import javafx.scene.Node;
+
+/**
+ * Represents a T shape in Tetris
+ */
 public class TShape extends Shape{
     
-    
+    /**
+     * Sets the properties for a T Shape object
+     */
     public TShape(GridPane g) {
         super(1, g, Color.PURPLE);
         pivotX = (int)(Math.random() * 8) + 1;

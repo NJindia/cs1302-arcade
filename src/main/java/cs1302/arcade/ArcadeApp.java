@@ -30,10 +30,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.layout.VBox;
 
-
+/**
+ * Represents the entire application with 2 games: 2048 and Tetris
+ */
 public class ArcadeApp extends Application {
     public Stage stage;
-    
+
+    /**
+     * Sets up the main menu
+     * @return a Scene with a menu
+     */
     public Scene mainMenu() {
         Separator style = new Separator(Orientation.HORIZONTAL);
         Game2048 game2048 = new Game2048();
@@ -52,7 +58,6 @@ public class ArcadeApp extends Application {
         b2.setMinWidth(150);
         b2.setFont(font1);
         b2.setStyle("-fx-background-color: #00CE52;");
-//            game2.setPadding(new Insets(10, 50, 100, 50));
         b2.setOnAction(e ->{
                 stage.setScene(gameTetris.getGameScene(this));
             });                             
@@ -70,7 +75,10 @@ public class ArcadeApp extends Application {
         Scene scene = new Scene(newPane, 480, 330);
         return scene;
     }
-
+    
+    /**
+     * Displays the menu
+     */
     public void setSceneToMenu() {
         stage.setScene(mainMenu());
     }

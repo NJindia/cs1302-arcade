@@ -2,11 +2,16 @@ package cs1302.arcade.gameTetris.shapes;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
-
+/**
+ * Represents the Square type of Shape
+ */
 public class Square extends Shape {
     //pivot is 1:
     //10
     //00
+    /**
+     * Sets the appropriate initial values for a square
+     */
     public Square(GridPane g) {
         super(0, g, Color.YELLOW);
         int x = (int)(Math.random() * 9);

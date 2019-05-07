@@ -2,9 +2,14 @@ package cs1302.arcade.gameTetris.shapes;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
-
+/**
+ * Represents the S shape in Tetris
+ */
 public class SShape extends Shape {
 
+    /**
+     * Sets the appropriate properties for an S Shape.
+     */
     public SShape(GridPane g)  {
         super(1, g, Color.GREEN);
         pivotX = (int)(Math.random() * 8) + 1;
