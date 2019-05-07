@@ -54,7 +54,7 @@ public class ArcadeApp extends Application {
         b2.setStyle("-fx-background-color: #00CE52;");
 //            game2.setPadding(new Insets(10, 50, 100, 50));
         b2.setOnAction(e ->{
-                stage.setScene(gameTetris.getGameScene());
+                stage.setScene(gameTetris.getGameScene(this));
             });                             
         Button exit = new Button("Exit");
         exit.setMinWidth(100);

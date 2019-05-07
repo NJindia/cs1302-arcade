@@ -14,9 +14,11 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.event.*;
 import cs1302.arcade.gameTetris.shapes.*;
+import cs1302.arcade.ArcadeApp;
+
 
 public class GameTetris{
-    
+    private ArcadeApp app;
     Scene scene;
     Rectangle[][] board = new Rectangle[24][10];
     GridPane grid = new GridPane();
@@ -25,8 +27,9 @@ public class GameTetris{
     Shape currShape;
     private boolean gameOver = false;
     
-    public Scene getGameScene () {
+    public Scene getGameScene(ArcadeApp a) {
         //updateScore(0);
+        app = a;
         score.setFont(new Font(20));
         HBox scores = new HBox(score);
         scores.setSpacing(30);
@@ -39,7 +42,7 @@ public class GameTetris{
         Button b2 = new Button("Back to Games List") {
                 public void requestFocus() { } //Prevents b2 from taking focus
             };
-        //b2.setOnAction(e -> mainMenu());
+        b2.setOnAction(e -> mainMenu());
         HBox buttons = new HBox(b, b2);
 
         grid.setOnKeyPressed(createKeyHandler());
@@ -103,7 +106,7 @@ public class GameTetris{
         KeyFrame k;
         switch(level) {
         case 1:
-            k = new KeyFrame(Duration.millis(1000), handler);
+            k = new KeyFrame(Duration.millis(400), handler);
             break;
         case 2:
             k = new KeyFrame(Duration.millis(666), handler);
@@ -131,15 +134,27 @@ public class GameTetris{
                 for (int x = 0; x < 10; x++) {
                     Rectangle rect = getFromGrid(x, y);
                     grid.getChildren().remove(rect);
+
+                    System.out.println("hiiii" + x);
+                    System.out.println("y " + y);
                     Rectangle top = getFromGrid(x, y-1);
                     if(top != null) {
-                        grid.add(top, x, y);
+                        // grid.getChildren().remove( x, y-1);
+                        //grid.add(top, x, y);
+                        grid.setRowIndex(top, x);
                     }
+                    
                 }
                 //clear row and add points
             }
         }
     }
+     /** Changes the scene to that of the main menu. */
+    private void mainMenu() {
+        app.stage.setScene(app.mainMenu());
+    } //mainMenu
+
+        
 
     public Rectangle getFromGrid(int col, int row) {
         for (Node node : grid.getChildren()) {

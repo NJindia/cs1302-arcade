@@ -76,21 +76,7 @@ public abstract class Shape{
 
    
     public void moveToBottom() {
-        int col, row;
-        for (Rectangle r : rectangles) {
-            if (r != null) {
-                col = GridPane.getColumnIndex(r);
-                row = GridPane.getRowIndex(r);
-                if(row != 19) {
-                    Rectangle next = getFromGrid(col, row + 1);
-                    row++;
-                    while (next == null && row < 19) {
-                        next = getFromGrid(col, row + 1);
-                    }
-                    GridPane.setRowIndex(r, row);
-                }
-            }
-        }
+        while(moveDown() == false);
     }
 
     public void moveLeft() {
