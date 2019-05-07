@@ -5,10 +5,10 @@ import javafx.scene.layout.GridPane;
 
 public class IShape extends Shape{
 
-     public IShape(int x, Rectangle[][] b, GridPane g) 
+    public IShape(GridPane g) 
          {
-             super(x, 1, b, g, Color.GREEN);
-
+             super(1, g, Color.GREEN);
+             pivotX = 0;
               r1 = addRectangle(pivotX, pivotY);
               r2 = addRectangle(pivotX+1, pivotY);
               r3 = addRectangle(pivotX+2, pivotY);

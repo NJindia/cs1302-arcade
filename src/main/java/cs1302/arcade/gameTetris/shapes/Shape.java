@@ -9,16 +9,13 @@ public abstract class Shape{
     public int angle; //can be 0, 90, 180, or 270
     public int pivotX, pivotY; //XY positions of pivot point
     public Color color;
-    public Rectangle[][]  board;
     public GridPane grid;
     public Rectangle r1, r2, r3, r4;
     public Rectangle[] rectangles = new Rectangle[4];
     
-    public Shape(int x, int y, Rectangle[][] b, GridPane g, Color c) {
+    public Shape(int y, GridPane g, Color c) {
         angle = 0; //Shapes always start with one orientation
-        pivotX = x;
         pivotY = y;
-        board = b;
         color = c;
         grid = g;
     }

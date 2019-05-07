@@ -4,39 +4,44 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
 import javafx.scene.Node;
 public class TShape extends Shape{
-
-
-    public TShape(int x, Rectangle[][] b, GridPane g) {
-        super(x, 2, b, g, Color.BLUE);
+    
+    
+    public TShape(GridPane g) {
+        super(1, g, Color.PURPLE);
+        pivotX = (int)(Math.random() * 8) + 1;
+        
+        //   r2
+        //r4 r1 r3
         r1 = addRectangle(pivotX, pivotY);//pivot
         r2 = addRectangle(pivotX, pivotY - 1);
         r3 = addRectangle(pivotX+1, pivotY);
         r4 = addRectangle(pivotX-1, pivotY);
-        //   r2
-        //r4 r1 r3
-        
+                
         rectangles[0] = r1;
         rectangles[1] = r2;
         rectangles[2] = r3;
         rectangles[3] = r4;
     }
-
-     public void rotateTo90() {
-         //Rotates to:
-         //r2
-         //r1 r3
-         //r4
-         int x = pivotX;
-         int y = pivotY + 1;
-         Rectangle next = getFromGrid(x, y);
-         if(next == null) {
-             removeRectangle(r4);
-             r4 = addRectangle(x, y);    
-             rectangles[3] = r4;
-             angle += 90;
-         }
-     }
     
+    
+    /** {@inheritDoc} */
+    public void rotateTo90() {
+        //Rotates to:
+        //r2
+        //r1 r3
+        //r4
+        int x = pivotX;
+        int y = pivotY + 1;
+        Rectangle next = getFromGrid(x, y);
+        if(next == null) {
+            removeRectangle(r4);
+            r4 = addRectangle(x, y);    
+            rectangles[3] = r4;
+            angle += 90;
+        }
+    }
+
+    /** {@inheritDoc} */
     public void rotateTo180() {
         //Rotates to:
         //r2 r1 r3
@@ -50,6 +55,8 @@ public class TShape extends Shape{
             angle += 90;
         }
     }
+
+    /** {@inheritDoc} */
     public void rotateTo270() {
         //Rotates to:
         //   r3
@@ -64,6 +71,8 @@ public class TShape extends Shape{
             angle += 90;
         }
     }
+
+    /** {@inheritDoc} */
     public void rotateTo0() {
         //Rotates to:
         //   r2
@@ -84,8 +93,5 @@ public class TShape extends Shape{
             rectangles[3] = r4;
             angle = 0;
         }
-    }
-
-    
-    
+    }  
 }
