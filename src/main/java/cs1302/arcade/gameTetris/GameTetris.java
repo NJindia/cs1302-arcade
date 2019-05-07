@@ -19,12 +19,12 @@ import cs1302.arcade.ArcadeApp;
 
 public class GameTetris{
     private ArcadeApp app;
-    Scene scene;
-    Rectangle[][] board = new Rectangle[24][10];
-    GridPane grid = new GridPane();
+    private Scene scene;
+    private GridPane grid = new GridPane();
     private Text score = new Text();
-    Timeline tl = new Timeline();
-    Shape currShape;
+    private Text level = new Text();
+    private Timeline tl = new Timeline();
+    private Shape currShape;
     private boolean gameOver = false;
     private int points = 0;
        
@@ -32,7 +32,8 @@ public class GameTetris{
         app = a;
         updateScore();
         score.setFont(new Font(20));
-        HBox scores = new HBox(score);
+        level.setFont(new Font(20));
+        HBox scores = new HBox(score, level);
         scores.setSpacing(30);
 
         //Creates and sets behavior of buttons
@@ -74,6 +75,19 @@ public class GameTetris{
              points +=1200;
          }
          updateScore();
+         updateLevel();
+    }
+
+    private void updateLevel() {
+        if(points >= 200) {
+            setTimeline(3);
+            tl.play();
+            level.setText("Level: 3");
+        } else if (points >= 80) {
+            setTimeline(2);
+            tl.play();
+            level.setText("Level: 2");
+        }
     }
 
     private void updateScore() {
@@ -96,6 +110,7 @@ public class GameTetris{
         gameOver = false;
         points = 0;
         updateScore();
+        level.setText("Level: 1");
         newShape();
         setTimeline(1);
         tl.play();
@@ -151,7 +166,7 @@ public class GameTetris{
         default:
             currShape = new Square(grid);
             break;
-      }
+        }       
     }
 
     private EventHandler<? super KeyEvent> createKeyHandler() {
@@ -181,13 +196,13 @@ public class GameTetris{
         KeyFrame k;
         switch(level) {
         case 1:
-            k = new KeyFrame(Duration.millis(400), handler);
+            k = new KeyFrame(Duration.millis(800), handler);
             break;
         case 2:
-            k = new KeyFrame(Duration.millis(666), handler);
+            k = new KeyFrame(Duration.millis(500), handler);
             break;
         case 3:
-            k = new KeyFrame(Duration.millis(333), handler);
+            k = new KeyFrame(Duration.millis(200), handler);
             break;
         default:
             k = new KeyFrame(Duration.millis(1000), handler);
@@ -227,8 +242,6 @@ public class GameTetris{
         app.stage.setScene(app.mainMenu());
     } //mainMenu
 
-        
-
     public Rectangle getFromGrid(int col, int row) {
         for (Node node : grid.getChildren()) {
             if(node != null && GridPane.getColumnIndex(node)!= null
@@ -239,7 +252,5 @@ public class GameTetris{
             }
         }
         return null;
-    }
-    
-    
+    }   
 }
