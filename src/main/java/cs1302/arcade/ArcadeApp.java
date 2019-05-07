@@ -23,22 +23,20 @@ import javafx.stage.Stage;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-//import java.awt.Font;
 import javafx.scene.text.Font;
 import javafx.scene.layout.VBox;
 
 /**
- * Represents the entire application with 2 games: 2048 and Tetris
+ * Represents the entire application with 2 games: 2048 and Tetris.
  */
 public class ArcadeApp extends Application {
     public Stage stage;
 
     /**
-     * Sets up the main menu
-     * @return a Scene with a menu
+     * Creates the main menu scene.
+     * @return a {@code Scene} for the main menu
      */
     public Scene mainMenu() {
         Separator style = new Separator(Orientation.HORIZONTAL);
@@ -68,8 +66,8 @@ public class ArcadeApp extends Application {
         style.setPadding(new Insets(30, 10, 10, 30));
         
         VBox newPane = new VBox(b1, style, b2, exit);
-        
-        newPane.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+        BackgroundFill bf = new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY);
+        newPane.setBackground(new Background(bf));
         newPane.setPadding(new Insets(10, 10, 10, 10));  
         newPane.setSpacing(10);
         Scene scene = new Scene(newPane, 480, 330);
@@ -77,7 +75,7 @@ public class ArcadeApp extends Application {
     }
     
     /**
-     * Displays the menu
+     * Displays the menu.
      */
     public void setSceneToMenu() {
         stage.setScene(mainMenu());
