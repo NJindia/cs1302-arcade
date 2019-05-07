@@ -3,8 +3,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Represents a J shape for Tetris
+ */
 public class JShape extends Shape {
 
+    /**
+     * Sets the properties for a J Shape
+     */
     public JShape(GridPane g) {
         super(1, g, Color.BLUE);
         pivotX = (int)(Math.random() * 8) + 1;

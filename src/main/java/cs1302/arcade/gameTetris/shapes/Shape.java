@@ -12,7 +12,11 @@ public abstract class Shape{
     public GridPane grid;
     public Rectangle r1, r2, r3, r4;
     public Rectangle[] rectangles = new Rectangle[4];
-    
+
+    /**
+     * Constructor that sets values
+     * @param Sets the initial y value, grid, and color
+     */
     public Shape(int y, GridPane g, Color c) {
         angle = 0; //Shapes always start with one orientation
         pivotY = y;
@@ -20,7 +24,10 @@ public abstract class Shape{
         grid = g;
     }
     /**
+     * Returns a rectangle object at a certain column and row index
      * @throws IndexOutOfBoundsException if col or row are out of the grid's index
+     * @param column and row
+     * @return rectangle object at column and row
      */
     public Rectangle getFromGrid(int col, int row) {
         if(col < 0 || col > 9 || row < 0 || row > 19) {
@@ -37,6 +44,11 @@ public abstract class Shape{
         return null;
     }
 
+    /**
+     * Checks to see if object matches 
+     * @param Rectangle object
+     * @return true or false
+     */
     public boolean isNotR(Rectangle r) {
         if(r != r1 && r != r2 && r != r3 && r != r4) {
             return true;
@@ -44,6 +56,9 @@ public abstract class Shape{
         return false;
     }
 
+    /**
+     * Sets rectangle values
+     */
     public void reassignRectangles() {
         rectangles[0] = r1;
         rectangles[1] = r2;
@@ -51,11 +66,17 @@ public abstract class Shape{
         rectangles[3] = r4;
     }
 
-    
+    /**
+     * Moves block completely to the bottom of the grid or until it hits a shape.
+     */
     public void moveToBottom() {
         while(moveDown() == true);
     }
-    
+
+    /**
+     * Moves the shape down
+     * @return true or false if shape can move down
+     */
     public boolean moveDown() {
         int col, row;
         boolean canMove = true;
@@ -86,7 +107,9 @@ public abstract class Shape{
     }
 
    
-
+    /**
+     * Moves the shape left
+     */
     public void moveLeft() {
         int col, row;
         boolean canMove = true;
@@ -112,7 +135,9 @@ public abstract class Shape{
         }
     }
 
-    
+    /**
+     * Moves the shape right
+     */
     public void moveRight() {
         int col, row;
         boolean canMove = true;
@@ -138,7 +163,11 @@ public abstract class Shape{
         }
     }
     
-
+    /** 
+     * Adds a rectangle object at a particular height and length
+     * @param x and y directions
+     * @return Rectangle object added
+     */
     public Rectangle addRectangle(int x, int y) {
         Rectangle r = new Rectangle(30, 30);
         r.setFill(color);
@@ -146,11 +175,16 @@ public abstract class Shape{
         return r;
     }
 
+    /**
+     * Removes Rectangle object 
+     */
     public void removeRectangle(Rectangle r) {
         grid.getChildren().remove(r);
     }
 
-
+    /**
+     * Rotates object at a specific angle
+     */
     public void rotate() {
         switch(angle) {
         case 0:
@@ -167,12 +201,24 @@ public abstract class Shape{
             break;
         }
     }
-    
+
+    /**
+     * Rotates a Shape from 270 degrees back to the initial 0 degrees
+     */
     public abstract void rotateTo0();
 
+    /**
+     * Rotates a Shape from 0 to 90 degrees.
+     */
     public abstract void rotateTo90();
 
+    /**
+     * Rotates a Shape from 90 to 180 degrees.
+     */
     public abstract void rotateTo180();
 
+    /**
+     * Rotates a Shape from 180 to 270 degrees.
+     */
     public abstract void rotateTo270();
 }

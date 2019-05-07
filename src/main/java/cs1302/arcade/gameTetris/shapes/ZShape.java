@@ -3,20 +3,25 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
 import javafx.scene.Node;
-
+/**
+ * Represents a Z shape in Tetris
+ */
 public class ZShape extends Shape{
 
+    /**
+     * Sets the properties for a Z shape
+     */
     public ZShape(GridPane g) {
         super(1, g, Color.RED);
         pivotX = (int)(Math.random() * 8) + 1;
-
+        
         //r3 r2
         //   r1 r4
         r1 = addRectangle(pivotX, pivotY);//pivot
         r2 = addRectangle(pivotX, pivotY - 1);
         r3 = addRectangle(pivotX-1, pivotY-1);
         r4 = addRectangle(pivotX+1, pivotY);
-
+        
         reassignRectangles();
     }
     

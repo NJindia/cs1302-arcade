@@ -19,7 +19,9 @@ import javafx.scene.image.*;
 import javafx.application.Platform;
 import javafx.scene.control.Alert.AlertType;
 import cs1302.arcade.ArcadeApp;
-
+/**
+ * This class represents the 2048 game.
+ */
 public class Game2048 {
     private ArcadeApp app;
     

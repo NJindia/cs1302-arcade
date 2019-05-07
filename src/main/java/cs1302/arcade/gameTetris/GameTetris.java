@@ -15,8 +15,9 @@ import javafx.animation.KeyFrame;
 import javafx.event.*;
 import cs1302.arcade.gameTetris.shapes.*;
 import cs1302.arcade.ArcadeApp;
-
-
+/**
+ * This class represents the Tetris game.           
+ */
 public class GameTetris{
     private ArcadeApp app;
     private Scene scene;
@@ -27,7 +28,12 @@ public class GameTetris{
     private Shape currShape;
     private boolean gameOver = false;
     private int points = 0;
-       
+
+    /**
+     * Creates the Tetris game scene.
+     * @param a a reference to the original {@code ArcadeApp}
+     * @return the scene for 2048
+     */
     public Scene getGameScene(ArcadeApp a) {
         app = a;
         updateScore();
@@ -57,6 +63,10 @@ public class GameTetris{
         return scene;        
     }
 
+    /**
+     * Sets the amount of points per lines completed
+     * @param lines the number of lines completed
+     */
     private void addPoints(int lines) {
          if(lines == 1)
          {
@@ -78,6 +88,9 @@ public class GameTetris{
          updateLevel();
     }
 
+    /**
+     * Updates the difficulty level of the game
+     */
     private void updateLevel() {
         if(points >= 200) {
             setTimeline(3);
@@ -90,11 +103,18 @@ public class GameTetris{
         }
     }
 
+
+    /**
+     * Updates the score of the game
+     */
     private void updateScore() {
         String text = "Score: " + points;
         score.setText(text);
     }
     
+    /**
+     * Creates a new game
+     */
     private void newGame(){
         for(int row = 0; row<20; row++)
         {
@@ -116,6 +136,9 @@ public class GameTetris{
         tl.play();
     }
 
+    /**
+     * Creates a new grid
+     */
     private void newGrid(){
         grid.setPrefSize(300, 600);
         grid.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
@@ -137,7 +160,9 @@ public class GameTetris{
     }
 
 
-
+    /**
+     * Creates a new shape randomnly
+     */
     private void newShape() {
         String[] shapes = {"Square", "L", "J", "S", "Z", "I", "T"};
         String shape = shapes[(int)(Math.random() * 7)];
@@ -169,6 +194,11 @@ public class GameTetris{
         }       
     }
 
+    /**
+     * Creates and returns a KeyEvent EventHandler that plays a timeline depending on what
+     * arrow key the user presses.
+     * @return an EventHandler that handles KeyEvents
+     */
     private EventHandler<? super KeyEvent> createKeyHandler() {
         return e -> {
             if(gameOver == false){
@@ -184,7 +214,10 @@ public class GameTetris{
             } //if
         }; //return
     } //createKeyHandler
-
+    
+    /**
+     * Sets the correct timeline according to the level of difficulty
+     */
     private void setTimeline(int level) {
         tl.stop();
         EventHandler<ActionEvent> handler = e -> {
@@ -212,6 +245,9 @@ public class GameTetris{
         tl.setCycleCount(Timeline.INDEFINITE);
     } //setTimeline
 
+    /**
+     * Clears the row of completed shapes and brings down the row above
+     */
     private void clearLines() {
         int rowsCleared = 0;
         for(int y = 0; y < 20; y++) {
@@ -242,6 +278,11 @@ public class GameTetris{
         app.stage.setScene(app.mainMenu());
     } //mainMenu
 
+    /**
+     * Returns the rectangle object from a particular column and row
+     * @param column and row to enter
+     * @return Rectangle object
+     */
     public Rectangle getFromGrid(int col, int row) {
         for (Node node : grid.getChildren()) {
             if(node != null && GridPane.getColumnIndex(node)!= null
